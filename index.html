@@ -25,11 +25,25 @@
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
     </select>
 
-    <ul>
-        <li ng-repeat="egenskapstype in objekttype[aktivObjekttype]['egenskapsTyper']">
+    <dl class="registrering">
+        <dt ng-repeat-start="egenskapstype in objekttype[aktivObjekttype]['egenskapsTyper']">
             {{egenskapstype.navn}}
-        </li>
-    </ul>
+        </dt>
+        <dd ng-if="egenskapstype.type != 'ENUM'">
+            <input type="text" placeholder="{{egenskapstype.type}}">
+            <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span><br>
+            {{egenskapstype.beskrivelse}}
+        </dd>
+        <dd ng-if="egenskapstype.type == 'ENUM'">
+
+            <select>
+                <option ng-repeat="enum in egenskapstype.enumVerdier">{{enum.verdi}}</option>
+            </select>
+            <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span><br>
+            {{egenskapstype.beskrivelse}}
+        </dd>
+        <dd ng-if="usynlig" ng-repeat-end></dd>
+    </dl>
 
 </section>
 

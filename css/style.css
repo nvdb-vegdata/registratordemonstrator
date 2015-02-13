@@ -13,3 +13,19 @@ body {
   font-size: 62.5%;
   background: #fff;
 }
+
+dl {
+  font-size: 1.4em;
+}
+
+dt {
+  float: left;
+  clear: left;
+  width: 15em;
+  margin: 2em 0 0 0;
+}
+
+dd {
+  float: left;
+  margin: 2em 0 0 0;
+}
