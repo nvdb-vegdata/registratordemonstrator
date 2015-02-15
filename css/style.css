@@ -15,7 +15,7 @@ body {
 }
 
 dl {
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
 dt {
@@ -23,9 +23,14 @@ dt {
   clear: left;
   width: 15em;
   margin: 2em 0 0 0;
+  font-weight: 600;
 }
 
 dd {
   float: left;
   margin: 2em 0 0 0;
+}
+
+.beskrivelse {
+  font-size: 0.9em;
 }
