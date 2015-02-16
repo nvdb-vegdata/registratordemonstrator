@@ -1,6 +1,6 @@
 ﻿<section ng-controller="regskjemaCtrl" id="regskjema">
 
-    <select ng-model="aktivObjekttype" ng-change="hentObjekttype()">
+    <select ng-model="aktivObjekttype" ng-change="hentObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
     </select>
@@ -31,12 +31,16 @@
                 <!-- Default -->
                 <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
             </ng-switch>
-            
-            <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span><br>
-            <p class="beskrivelse">{{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}</p>
+
+            <p class="beskrivelse">
+                {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
+                <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
+            </p>
         </dd>
         
         <dd ng-if="usynlig" ng-repeat-end></dd>
     </dl>
+    
+    <button ng-click="hentObjekter()">Hent objekter</button>
     
 </section>

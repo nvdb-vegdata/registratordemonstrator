@@ -50,3 +50,8 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
+
+map.on('zoomend', function() {
+    console.log('Endret zoomnivå');
+    console.log(map.getBounds());
+});

@@ -1,4 +1,11 @@
 ﻿var app = angular.module('registratordemonstrator', [
     'nvdbles',
-    'regskjema'
+    'regskjema',
+    'nvdbleaflet'
 ]);
+
+app.run(['$rootScope', function($rootScope) {
+
+    $rootScope.aktivObjekttype = 0;
+
+}]);

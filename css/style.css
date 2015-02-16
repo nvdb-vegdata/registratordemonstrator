@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700|Open+Sans+Condensed:300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600,700);
 
 * {
   margin: 0;
@@ -23,23 +23,24 @@ h1 {
 }
 
 p {
-  font-size: 1.3em;
+  margin: 5px 0 0 0;
+  font-size: 1.2em;
 }
+
+
 
 #regskjema {
   float: left;
-  width: 499px;
+  width: 480px;
   height: calc(100% - 40px);
   overflow: auto;
   padding: 20px;
-  border-right: 1px solid #eee;
-  
-  background: #f7f7f7;
+  background: #fff;
 }
 
 #map {
   float: left;
-  width: calc(100% - 540px);
+  width: calc(100% - 520px);
   height: 100%;
 }
 
@@ -47,26 +48,35 @@ p {
 dt {
   float: left;
   clear: left;
-  width: 15em;
-  margin: 2em 0 0 0;
+  width: 150px;
+  margin: 10px 0 0 0;
+  padding: 15px 20px 0 0;
   font-weight: 600;
   font-size: 1.3em;
+  border-top: 1px solid #eee;
 }
 
 dd {
   float: left;
-  width: 20em;
-  margin: 2em 0 0 0;
+  width: 290px;
+  margin: 10px 0 0 0;
+  padding: 10px 0 0 0;
+  border-top: 1px solid #eee;
 }
 
 
 select {
+  width: calc(100% - 2px);
+  padding: 5px;
+  border: 1px solid #ccc;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  padding: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 4px;
+}
+
+select.velg_objekttype {
+  width: calc(100% - 20px);
+  font-size: 1.4em;
 }
 
 select:hover {
@@ -74,10 +84,12 @@ select:hover {
   cursor: pointer;
 }
 
+
 input[type=text] {
+  width: calc(100% - 14px);
+  padding: 6px;
+  border: 1px solid #ccc;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  padding: 6px;
-  border: 1px solid #ccc;
 }

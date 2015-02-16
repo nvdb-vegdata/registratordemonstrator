@@ -1,4 +1,4 @@
-﻿angular.module('regskjema', [])
+angular.module('regskjema', [])
 
     .controller("regskjemaCtrl", ['$scope', 'nvdbles', function ($scope, nvdbles) {
     
@@ -14,7 +14,63 @@
         $scope.hentObjekttype = function () {
             nvdbles.objekttype($scope.aktivObjekttype).then(function(promise) {
                 $scope.objekttype[$scope.aktivObjekttype] = promise.data;
+                
             });
         };
+        
+        $scope.hentObjekter = function () {
+        
+            console.log('Henter data ...'); // Aktiver loading-ikon
+
+            var srid = 'WGS84';
+            
+            var northEast = $scope.map.getBounds()._northEast;
+            var southWest = $scope.map.getBounds()._southWest;
+
+            var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
+            
+            var objekttype = $scope.aktivObjekttype;
+            
+            var sokeobjekt = {
+                lokasjon: {
+                    srid: srid,
+                    bbox: bbox
+                },
+                objektTyper: [{
+                    id: objekttype,
+                    antall: 10000
+                }]
+            }
+            
+            
+            nvdbles.sok(sokeobjekt).then(function(promise) { 
+                console.log('Data hentet. Tegner opp ...'); // Deaktiver loading-ikon
+
+                var objekter = promise.data.resultater[0].vegObjekter;
+                
+                var myLayer = L.geoJson().addTo($scope.map);
+                
+                for (var i = 0; i < objekter.length ;i++) {
+                
+
+                    var geometri = objekter[i].lokasjon.geometriWgs84;
+                    geometri = geometri.replace('POINT (', '');
+                    geometri = geometri.substring(0, geometri.length-1);
+                    var koordinater = geometri.split(' ');
+                    
+                    var geojsonFeature = {
+                        type: 'Feature',
+                        geometry: {
+                            type: 'Point',
+                            coordinates: koordinater
+                        }
+                    };
+                    
+                    myLayer.addData(geojsonFeature);
+                }
+                       
+            });
+            
+        }
 
     }])
