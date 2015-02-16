@@ -27,5 +27,6 @@ dt {
 
 dd {
   float: left;
+  width: 50em;
   margin: 2em 0 0 0;
 }
