@@ -22,12 +22,18 @@ h1 {
   display: none;  
 }
 
+p {
+  font-size: 1.3em;
+}
+
 #regskjema {
   float: left;
-  width: 500px;
+  width: 499px;
   height: calc(100% - 40px);
-  padding: 20px;
   overflow: auto;
+  padding: 20px;
+  border-right: 1px solid #eee;
+  
   background: #f7f7f7;
 }
 
@@ -37,9 +43,6 @@ h1 {
   height: 100%;
 }
 
-dl {
-  font-size: 1.3em;
-}
 
 dt {
   float: left;
@@ -47,6 +50,7 @@ dt {
   width: 15em;
   margin: 2em 0 0 0;
   font-weight: 600;
+  font-size: 1.3em;
 }
 
 dd {
@@ -55,7 +59,25 @@ dd {
   margin: 2em 0 0 0;
 }
 
-.beskrivelse {
-  font-size: 0.9em;
+
+select {
+  font-size: 1.3em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  padding: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 4px;
 }
 
+select:hover {
+  border-color: #000;
+  cursor: pointer;
+}
+
+input[type=text] {
+  font-size: 1.3em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  padding: 6px;
+  border: 1px solid #ccc;
+}

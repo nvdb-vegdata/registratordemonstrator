@@ -33,7 +33,7 @@
             </ng-switch>
             
             <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span><br>
-            <p class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
+            <p class="beskrivelse">{{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}</p>
         </dd>
         
         <dd ng-if="usynlig" ng-repeat-end></dd>
