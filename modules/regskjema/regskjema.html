@@ -1,0 +1,42 @@
+﻿<section ng-controller="regskjemaCtrl" id="regskjema">
+
+    <select ng-model="aktivObjekttype" ng-change="hentObjekttype()">
+        <option value="0">Velg objekttype</option>
+        <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
+    </select>
+
+    <dl class="registrering">
+        <dt ng-repeat-start="egenskapstype in objekttype[aktivObjekttype]['egenskapsTyper'] | orderBy:'sorteringsnummer'">
+            {{egenskapstype.navn}}
+        </dt>
+        <dd>
+            <ng-switch on="egenskapstype.type">
+                <!-- ENUM -->
+                <select ng-switch-when="ENUM">
+                    <option ng-repeat="enum in egenskapstype.enumVerdier" ng-value="{{enum.id}}">{{enum.verdi}}</option>
+                </select>
+                
+                <!-- Tekst -->
+                <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst">
+                
+                <!-- Tall -->
+                <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall">
+
+                <!-- Dato -->
+                <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato">
+                
+                <!-- Klokkeslett -->
+                <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett">
+                
+                <!-- Default -->
+                <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
+            </ng-switch>
+            
+            <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span><br>
+            <p class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
+        </dd>
+        
+        <dd ng-if="usynlig" ng-repeat-end></dd>
+    </dl>
+    
+</section>

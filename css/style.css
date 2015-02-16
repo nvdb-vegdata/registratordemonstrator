@@ -1,17 +1,40 @@
-﻿@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700|Open+Sans+Condensed:300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700|Open+Sans+Condensed:300);
 
 * {
   margin: 0;
   padding: 0;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  padding: 2.5em 10em;
-  color: #444;
+  height: 100%;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 62.5%;
+  color: #444;
   background: #fff;
+}
+
+h1 {
+  display: none;  
+}
+
+#regskjema {
+  float: left;
+  width: 500px;
+  height: calc(100% - 40px);
+  padding: 20px;
+  overflow: auto;
+  background: #f7f7f7;
+}
+
+#map {
+  float: left;
+  width: calc(100% - 540px);
+  height: 100%;
 }
 
 dl {
@@ -28,10 +51,11 @@ dt {
 
 dd {
   float: left;
-  width: 50em;
+  width: 20em;
   margin: 2em 0 0 0;
 }
 
 .beskrivelse {
   font-size: 0.9em;
 }
+
