@@ -48,7 +48,10 @@ angular.module('regskjema', [])
 
                 var objekter = promise.data.resultater[0].vegObjekter;
                 
-                var myLayer = L.geoJson().addTo(map);
+                var markers = L.markerClusterGroup();
+                //var myLayer = L.geoJson().addTo(map);
+                var myLayer = L.geoJson();
+
                 
                 for (var i = 0; i < objekter.length ;i++) {
                 
@@ -68,6 +71,9 @@ angular.module('regskjema', [])
                     
                     myLayer.addData(geojsonFeature);
                 }
+                
+                markers.addLayer(myLayer);
+                map.addLayer(markers);
                        
             });
             

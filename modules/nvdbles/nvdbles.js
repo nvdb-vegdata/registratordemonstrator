@@ -14,7 +14,7 @@
                 return $http.get(api+'/datakatalog/egenskapstype/'+id+'.json');
             },
             sok: function(sokeobjekt) {
-                return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&geometri=WGS84');
+                return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&select=objektId%2CobjektTypeId%2CvegObjektLokasjon%2FgeometriWgs84');
             }
             
         };
