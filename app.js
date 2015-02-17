@@ -1,7 +1,6 @@
 ﻿var app = angular.module('registratordemonstrator', [
     'nvdbles',
-    'regskjema',
-    'nvdbleaflet'
+    'regskjema'
 ]);
 
 app.run(['$rootScope', function($rootScope) {

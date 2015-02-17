@@ -39,19 +39,3 @@ var bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcg
 
 map.addLayer(bakgrunnskart);
 map.setView([63.43,10.40], 8);
-
-var popup = L.popup();
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent("You clicked the map at " + e.latlng.toString())
-        .openOn(map);
-}
-
-map.on('click', onMapClick);
-
-map.on('zoomend', function() {
-    console.log('Endret zoomnivå');
-    console.log(map.getBounds());
-});

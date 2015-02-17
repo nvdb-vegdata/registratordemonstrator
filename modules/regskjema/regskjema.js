@@ -24,8 +24,8 @@ angular.module('regskjema', [])
 
             var srid = 'WGS84';
             
-            var northEast = $scope.map.getBounds()._northEast;
-            var southWest = $scope.map.getBounds()._southWest;
+            var northEast = map.getBounds()._northEast;
+            var southWest = map.getBounds()._southWest;
 
             var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
             
@@ -48,7 +48,7 @@ angular.module('regskjema', [])
 
                 var objekter = promise.data.resultater[0].vegObjekter;
                 
-                var myLayer = L.geoJson().addTo($scope.map);
+                var myLayer = L.geoJson().addTo(map);
                 
                 for (var i = 0; i < objekter.length ;i++) {
                 
