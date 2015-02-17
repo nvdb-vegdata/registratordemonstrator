@@ -75,7 +75,7 @@ select {
 }
 
 select.velg_objekttype {
-  width: calc(100% - 20px);
+  width: calc(100% - 132px);
   font-size: 1.4em;
 }
 
@@ -92,4 +92,16 @@ input[type=text] {
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+}
+
+button {
+  width: 110px;
+  font-size: 1.3em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  padding: 6px 0 6px 0;
+  color: #fff;
+  border: 1px solid #008ec2;
+  background: #008ec2;
+  cursor: pointer;
 }

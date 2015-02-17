@@ -38,7 +38,7 @@ angular.module('regskjema', [])
                 },
                 objektTyper: [{
                     id: objekttype,
-                    antall: 10000
+                    antall: 100000
                 }]
             }
             

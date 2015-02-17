@@ -4,6 +4,7 @@
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
     </select>
+    <button ng-click="hentObjekter()">Hent objekter</button>
 
     <dl class="registrering">
         <dt ng-repeat-start="egenskapstype in objekttype[aktivObjekttype]['egenskapsTyper'] | orderBy:'sorteringsnummer'">
@@ -40,7 +41,5 @@
         
         <dd ng-if="usynlig" ng-repeat-end></dd>
     </dl>
-    
-    <button ng-click="hentObjekter()">Hent objekter</button>
     
 </section>
