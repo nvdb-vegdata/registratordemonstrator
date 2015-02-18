@@ -18,8 +18,11 @@ body {
   background: #fff;
 }
 
+
 h1 {
-  display: none;  
+  margin: 0 0 0.5em 0;
+  font-size: 3em;
+  font-weight: 300;
 }
 
 h2 {
@@ -94,12 +97,12 @@ p {
 
 select {
   width: calc(100% - 2px);
-  padding: 6px;
-  border: none;
+  padding: 5px;
+  border: 1px solid #ccc;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  background: #eee
+  background: #f7f7f7;
 }
 
 select.velg_objekttype {
@@ -115,12 +118,12 @@ select:hover {
 
 input[type=text] {
   width: calc(100% - 14px);
-  padding: 7px;
-  border: none;
+  padding: 6px;
+  border: 1px solid #ccc;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  background: #eee
+  background: #f7f7f7;
 }
 
 button {

@@ -1,5 +1,7 @@
 ﻿<section ng-controller="regskjemaCtrl" id="regskjema">
 
+    <h1>Registratordemonstrator</h1>
+
     <select ng-model="aktivObjekttype" ng-change="hentObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
