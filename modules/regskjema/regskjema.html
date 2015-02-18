@@ -3,14 +3,27 @@
     <select ng-model="aktivObjekttype" ng-change="hentObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
-    </select>
-    <button ng-click="hentObjekter()">Hent objekter</button>
+    </select><button ng-click="hentObjekter()">Hent objekter</button>
 
-    <dl class="registrering">
-        <dt ng-repeat-start="egenskapstype in objekttype[aktivObjekttype]['egenskapsTyper'] | orderBy:'sorteringsnummer'">
-            {{egenskapstype.navn}}
-        </dt>
-        <dd>
+
+    <div ng-if="aktivObjekttype != 0">
+        <h2>Registrer nytt objekt</h2>
+        
+        <h3><span class="nr">1</span>Stedfesting</h3>
+        
+        <div ng-repeat="geometritype in objekttype[aktivObjekttype].geometri" class="egenskapstype">
+            <h4>{{geometritype.navn}}</h4>
+            <input type="text">
+        </div>
+        
+        <h3><span class="nr">2</span>Egenskaper</h3>
+
+        <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:'viktighet'" class="egenskapstype">
+            <h4 title="{{egenskapstype.beskrivelse}}">
+                {{egenskapstype.navn}} 
+                <span class="viktighet">{{egenskapstype.viktighet}}</span>
+            </h4>
+            
             <ng-switch on="egenskapstype.type">
                 <!-- ENUM -->
                 <select ng-switch-when="ENUM">
@@ -33,14 +46,18 @@
                 <!-- Default -->
                 <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
             </ng-switch>
-
-            <!--<p class="beskrivelse">
+            
+            <!--
+            <p class="beskrivelse">
                 {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
                 <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
-            </p>-->
-        </dd>
+            </p>
+            -->
+        </div>
         
-        <dd ng-if="usynlig" ng-repeat-end></dd>
-    </dl>
-    
+        <h3><span class="nr">3</span>Datterobjekter</h3>
+        
+        
+    </div>
+
 </section>

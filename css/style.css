@@ -22,16 +22,64 @@ h1 {
   display: none;  
 }
 
+h2 {
+  margin: 1em 0 0 0;
+  font-size: 2.4em;
+  font-weight: 300;
+}
+
+h3 {
+  margin: 1.5em 0 0 0;
+  font-weight: 400;
+  font-size: 1.8em;
+}
+
+h3 .nr {
+  display: inline-block;
+  background: #58b02c;
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  margin: 0 11px 0 0;
+  text-align: center;
+  color: #fff;
+  font-weight: 300;
+}
+
+h4 {
+  margin: 1em 0 0.3em 0;
+  font-weight: 600;
+  font-size: 1.4em;
+}
+
+h4[title]:after {
+  content: "\2666";
+  margin-left: 5px;
+  color: #ccc;
+}
+
+.viktighet {
+  float: right;
+  font-weight: 300;
+  color: #58b02c;
+}
+
+
+
 p {
   margin: 5px 0 0 0;
   font-size: 1.2em;
+}
+
+.egenskapstype {
+  margin-left: 35px;
 }
 
 
 
 #regskjema {
   float: left;
-  width: 480px;
+  width: 400px;
   height: calc(100% - 40px);
   overflow: auto;
   padding: 20px;
@@ -40,42 +88,22 @@ p {
 
 #map {
   float: left;
-  width: calc(100% - 520px);
+  width: calc(100% - 440px);
   height: 100%;
 }
 
-
-dt {
-  float: left;
-  clear: left;
-  width: 150px;
-  margin: 10px 0 0 0;
-  padding: 15px 20px 0 0;
-  font-weight: 600;
-  font-size: 1.3em;
-  border-top: 1px solid #eee;
-}
-
-dd {
-  float: left;
-  width: 290px;
-  margin: 10px 0 0 0;
-  padding: 10px 0 0 0;
-  border-top: 1px solid #eee;
-}
-
-
 select {
   width: calc(100% - 2px);
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding: 6px;
+  border: none;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+  background: #eee
 }
 
 select.velg_objekttype {
-  width: calc(100% - 132px);
+  width: calc(100% - 112px);
   font-size: 1.4em;
 }
 
@@ -87,11 +115,12 @@ select:hover {
 
 input[type=text] {
   width: calc(100% - 14px);
-  padding: 6px;
-  border: 1px solid #ccc;
+  padding: 7px;
+  border: none;
   font-size: 1.3em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+  background: #eee
 }
 
 button {

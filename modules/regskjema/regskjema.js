@@ -13,7 +13,36 @@ angular.module('regskjema', [])
         // Henter detaljert info om aktiv objekttype 
         $scope.hentObjekttype = function () {
             nvdbles.objekttype($scope.aktivObjekttype).then(function(promise) {
-                $scope.objekttype[$scope.aktivObjekttype] = promise.data;
+            
+                var objekttype = promise.data;
+                var egenskapstyper = promise.data.egenskapsTyper;
+                objekttype.egenskapsTyper = [];
+                objekttype.geometri = [];
+                
+                // Filtrer vekk irrelevante egenskapstyper
+                for (var i = 0; i < egenskapstyper.length; i++) {
+                    var egenskapstype = egenskapstyper[i];
+                    
+                    switch (egenskapstype.navn) {
+                        case 'PunktTilknytning':
+                            break;
+                        case 'StrekningTilknytning':
+                            break;
+                        case 'Geometri, punkt':
+                            objekttype.geometri.push(egenskapstype);
+                            break;
+                        case 'Geometri, linje':
+                            objekttype.geometri.push(egenskapstype);
+                            break;
+                        case 'Geometri, flate':
+                            objekttype.geometri.push(egenskapstype);
+                            break;
+                        default:
+                            objekttype.egenskapsTyper.push(egenskapstype);
+                    }
+                }               
+                
+                $scope.objekttype[$scope.aktivObjekttype] = objekttype;
                 
             });
         };
