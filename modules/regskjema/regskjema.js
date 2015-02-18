@@ -22,56 +22,52 @@ angular.module('regskjema', [])
         
             console.log('Henter data ...'); // Aktiver loading-ikon
 
-            var srid = 'WGS84';
-            
-            var northEast = map.getBounds()._northEast;
-            var southWest = map.getBounds()._southWest;
-
-            var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
-            
-            var objekttype = $scope.aktivObjekttype;
-            
             var sokeobjekt = {
                 lokasjon: {
-                    srid: srid,
-                    bbox: bbox
+                    srid: 'WGS84',
+                    bbox: getBbox()
                 },
                 objektTyper: [{
-                    id: objekttype,
+                    id: $scope.aktivObjekttype,
                     antall: 100000
                 }]
             }
-            
             
             nvdbles.sok(sokeobjekt).then(function(promise) { 
                 console.log('Data hentet. Tegner opp ...'); // Deaktiver loading-ikon
 
                 var objekter = promise.data.resultater[0].vegObjekter;
                 
-                var markers = L.markerClusterGroup();
-                //var myLayer = L.geoJson().addTo(map);
-                var myLayer = L.geoJson();
-
-                
-                for (var i = 0; i < objekter.length ;i++) {
-                
-
-                    var geometri = objekter[i].lokasjon.geometriWgs84;
-                    geometri = geometri.replace('POINT (', '');
-                    geometri = geometri.substring(0, geometri.length-1);
-                    var koordinater = geometri.split(' ');
-                    
+                // Fra NVDB-objekt til geojson-objekt
+                var geojson = [];
+                for (var i = 0; i < objekter.length; i++) {
+                    var geometri = Terraformer.WKT.parse(objekter[i].lokasjon.geometriWgs84);
                     var geojsonFeature = {
                         type: 'Feature',
-                        geometry: {
-                            type: 'Point',
-                            coordinates: koordinater
-                        }
+                        properties: {
+                            id: objekter[i].objektId
+                        },
+                        geometry: geometri
                     };
-                    
-                    myLayer.addData(geojsonFeature);
+                    geojson.push(geojsonFeature);
                 }
                 
+                var geojsonMarkerOptions = {
+                    radius: 8,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                };
+                
+                // Opprett markercluster-lag i Leaflet
+                var myLayer = L.geoJson(geojson, {
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, geojsonMarkerOptions);
+                    }
+                });
+                var markers = L.markerClusterGroup();
                 markers.addLayer(myLayer);
                 map.addLayer(markers);
                        

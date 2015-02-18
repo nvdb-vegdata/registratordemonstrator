@@ -39,3 +39,15 @@ var bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcg
 
 map.addLayer(bakgrunnskart);
 map.setView([63.43,10.40], 8);
+
+
+
+function getBbox() {
+    var northEast = map.getBounds()._northEast;
+    var southWest = map.getBounds()._southWest;
+
+    var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
+    
+    return bbox;
+}
+

@@ -14,6 +14,7 @@
             <ng-switch on="egenskapstype.type">
                 <!-- ENUM -->
                 <select ng-switch-when="ENUM">
+                    <option value="">Velg verdi</option>
                     <option ng-repeat="enum in egenskapstype.enumVerdier" ng-value="{{enum.id}}">{{enum.verdi}}</option>
                 </select>
                 
@@ -33,10 +34,10 @@
                 <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
             </ng-switch>
 
-            <p class="beskrivelse">
+            <!--<p class="beskrivelse">
                 {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
                 <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
-            </p>
+            </p>-->
         </dd>
         
         <dd ng-if="usynlig" ng-repeat-end></dd>

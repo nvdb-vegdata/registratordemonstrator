@@ -53,7 +53,10 @@
 
 	text-align: center;
 	border-radius: 15px;
-	font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	color: #000;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13px;
+	font-weight: 600;
 	}
 .marker-cluster span {
 	line-height: 30px;
