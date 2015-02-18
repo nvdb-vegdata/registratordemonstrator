@@ -31,7 +31,7 @@ var map = new L.map('map', {
 
 var bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 16,
-    minZoom: 0,	
+    minZoom: 3,	
     subdomains: '123456789',
     continuousWorld: true,
     attribution: 'Registratordemonstrator'
@@ -51,3 +51,11 @@ function getBbox() {
     return bbox;
 }
 
+
+
+map.on('locationfound', onLocationFound);
+
+function onLocationFound(e) {
+    console.log('Finner posisjon');
+    var marker = L.marker(e.latlng).addTo(map); 
+}

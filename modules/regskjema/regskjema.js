@@ -102,6 +102,10 @@ angular.module('regskjema', [])
                        
             });
             
-        }
+        };
+        
+        $scope.finnPosisjon = function () {
+            map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true, watch: false});
+        };
 
     }])

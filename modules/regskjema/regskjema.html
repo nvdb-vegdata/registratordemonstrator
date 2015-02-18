@@ -16,6 +16,7 @@
         <div ng-repeat="geometritype in objekttype[aktivObjekttype].geometri" class="egenskapstype">
             <h4>{{geometritype.navn}}</h4>
             <input type="text">
+            <a href="#" ng-click="finnPosisjon()">Finn posisjon</a>
         </div>
         
         <h3><span class="nr">2</span>Egenskaper</h3>
@@ -60,6 +61,9 @@
         <h3><span class="nr">3</span>Datterobjekter</h3>
         
         
+    </div>
+    <div ng-if="aktivObjekttype == 0">
+        <p>Velg objekttype ovenfor for å starte registreringen.</p>
     </div>
 
 </section>
