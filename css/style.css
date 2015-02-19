@@ -74,6 +74,10 @@ p {
   font-size: 1.2em;
 }
 
+.beskrivelse {
+  color: #777;
+}
+
 .egenskapstype {
   margin-left: 35px;
 }
@@ -111,8 +115,7 @@ select.velg_objekttype {
 }
 
 select:hover, input[type=text]:hover {
-  border-color: #000;
-  cursor: pointer;
+  border-color: #444;
 }
 
 

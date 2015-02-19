@@ -22,9 +22,9 @@
         <h3><span class="nr">2</span>Egenskaper</h3>
 
         <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:['viktighetnr', 'sorteringsnummer']" class="egenskapstype">
-            <h4 title="{{egenskapstype.beskrivelse}}">
+            <h4>
                 {{egenskapstype.navn}} 
-                <span class="viktighet">{{egenskapstype.viktighetnr}} {{egenskapstype.viktighet}}</span>
+                <span class="viktighet">{{egenskapstype.viktighet}}</span>
             </h4>
             
             <ng-switch on="egenskapstype.type">
@@ -49,6 +49,8 @@
                 <!-- Default -->
                 <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
             </ng-switch>
+            
+            <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
             
             <!--
             <p class="beskrivelse">
