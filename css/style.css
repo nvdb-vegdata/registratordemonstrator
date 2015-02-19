@@ -110,7 +110,7 @@ select.velg_objekttype {
   font-size: 1.4em;
 }
 
-select:hover {
+select:hover, input[type=text]:hover {
   border-color: #000;
   cursor: pointer;
 }

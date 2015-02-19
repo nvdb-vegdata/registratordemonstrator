@@ -20,8 +20,8 @@ angular.module('regskjema', [])
                 objekttype.geometri = [];
                 
                 var viktighet = {
-                    "PÅKREVD_ABSOLUTT": 1,
-                    "PÅKREVD": 2,
+                    "P\u00C5KREVD_ABSOLUTT": 1,
+                    "P\u00C5KREVD": 2,
                     "BETINGET": 3,
                     "OPSJONELL": 4,
                     "MINDRE_VIKTIG": 7,
