@@ -1,4 +1,4 @@
-﻿<section ng-controller="regskjemaCtrl" id="regskjema">
+<section ng-controller="regskjemaCtrl" id="regskjema">
 
     <h1>Registratordemonstrator</h1>
 
@@ -24,7 +24,7 @@
         <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:'viktighet'" class="egenskapstype">
             <h4 title="{{egenskapstype.beskrivelse}}">
                 {{egenskapstype.navn}} 
-                <span class="viktighet">{{egenskapstype.viktighet}}</span>
+                <span class="viktighet">{{egenskapstype.viktighetnr}} {{egenskapstype.viktighet}}</span>
             </h4>
             
             <ng-switch on="egenskapstype.type">

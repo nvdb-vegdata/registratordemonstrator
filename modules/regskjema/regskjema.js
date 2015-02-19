@@ -19,6 +19,16 @@ angular.module('regskjema', [])
                 objekttype.egenskapsTyper = [];
                 objekttype.geometri = [];
                 
+                var viktighet = {
+                    "PÅKREVD_ABSOLUTT": 1,
+                    "PÅKREVD": 2,
+                    "BETINGET": 3,
+                    "OPSJONELL": 4,
+                    "MINDRE_VIKTIG": 7,
+                    "HISTORISK": 9,
+                    "IKKE_SATT": 999
+                }
+                
                 // Filtrer vekk irrelevante egenskapstyper
                 for (var i = 0; i < egenskapstyper.length; i++) {
                     var egenskapstype = egenskapstyper[i];
@@ -38,6 +48,7 @@ angular.module('regskjema', [])
                             objekttype.geometri.push(egenskapstype);
                             break;
                         default:
+                            egenskapstype.viktighetnr = viktighet[egenskapstype.viktighet];
                             objekttype.egenskapsTyper.push(egenskapstype);
                     }
                 }               
