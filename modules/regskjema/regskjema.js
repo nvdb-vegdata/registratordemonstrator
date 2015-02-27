@@ -94,7 +94,7 @@ angular.module('regskjema', [])
                 
                 var geojsonMarkerOptions = {
                     radius: 8,
-                    fillColor: "#ff7800",
+                    fillColor: "#d53e4f",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
@@ -103,14 +103,22 @@ angular.module('regskjema', [])
                 
                 // Opprett markercluster-lag i Leaflet
                 var myLayer = L.geoJson(geojson, {
+                    style: function (feature) {
+                        return {
+                            color: "#d53e4f",
+                            fillColor: "#d53e4f"
+                        };
+
+                    },
                     pointToLayer: function (feature, latlng) {
                         return L.circleMarker(latlng, geojsonMarkerOptions);
                     }
                 });
                 var markers = L.markerClusterGroup();
-                markers.addLayer(myLayer);
                 map.addLayer(markers);
-                       
+                markers.addLayer(myLayer);
+                
+
             });
             
         };
