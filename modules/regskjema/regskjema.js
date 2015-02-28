@@ -106,7 +106,9 @@ angular.module('regskjema', [])
                     style: function (feature) {
                         return {
                             color: "#d53e4f",
-                            fillColor: "#d53e4f"
+                            fillColor: "#d53e4f",
+                            opacity: 1,
+                            weight: 3
                         };
 
                     },
