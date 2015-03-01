@@ -141,6 +141,10 @@ button {
   cursor: pointer;
 }
 
+button:focus {
+  background: #f00;
+}
+
 button[disabled] {
   background: #ccc; 
 }

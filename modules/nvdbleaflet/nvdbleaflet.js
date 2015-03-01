@@ -188,10 +188,10 @@
             var geometri = layer.toGeoJSON().geometry;
             var wkt = Terraformer.WKT.convert(geometri);
             
-            //$rootScope.$apply(function () {
+            $rootScope.$apply(function () {
                 $rootScope.stedfesting.egengeometri = wkt;
                 $rootScope.harEgengeometri = true;
-            //});
+            });
         };
         
         
