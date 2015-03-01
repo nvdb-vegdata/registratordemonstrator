@@ -1,6 +1,6 @@
-﻿angular.module('nvdbles', [])
+﻿angular.module('nvdbapi', [])
 
-    .factory('nvdbles', ['$http', function($http) {
+    .factory('nvdbapi', ['$http', function($http) {
         var api = 'https://www.vegvesen.no/nvdb/api';
         
         return {
@@ -15,6 +15,9 @@
             },
             sok: function(sokeobjekt) {
                 return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&select=objektId%2CobjektTypeId%2CvegObjektLokasjon%2FgeometriWgs84');
+            },
+            vegreferanse: function(lon, lat) {
+                return $http.get(api+'/vegreferanse/koordinat.json?lon='+lon+'&lat='+lat);
             }
             
         };

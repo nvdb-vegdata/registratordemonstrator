@@ -1,71 +1,68 @@
-<section ng-controller="regskjemaCtrl" id="regskjema">
 
-    <h1>Registratordemonstrator</h1>
+<div ng-if="aktivObjekttype != 0" ng-controller="regskjemaCtrl" >
+<h2>Registrer nytt objekt</h2>
 
-    <select ng-model="aktivObjekttype" ng-change="hentObjekttype()" class="velg_objekttype">
-        <option value="0">Velg objekttype</option>
-        <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
-    </select><button ng-click="hentObjekter()">Hent objekter</button>
+<h3><span class="nr">1</span>Stedfesting</h3>
 
+<div class="egenskapstype">
+    <h4>Egengeometri</h4>
+    <input type="text" ng-model="stedfesting.egengeometri" placeholder="Trykk i kart" disabled="disabled">
+    <button ng-if="harEgengeometri" ng-click="fjernEgengeometri()">Fjern</button>
+    <span ng-repeat="geometritype in objekttype[aktivObjekttype].geometri">
+        <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="harEgengeometri">Punkt</button>
+        <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="harEgengeometri">Linje</button>
+        <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="harEgengeometri">Flate</button>
+    </span>
+</div>
 
-    <div ng-if="aktivObjekttype != 0">
-        <h2>Registrer nytt objekt</h2>
+<div class="egenskapstype">
+    <h4>Vegnettstilknytning</h4>
+    <input type="text" ng-model="stedfesting.vegnettstilknytning" placeholder="Trykk på lenke" disabled="disabled">
+    <button ng-if="harVegnettstilknytning" ng-click="fjernVegnettstilknytning()">Fjern</button>
+    <button ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'" ng-click="hentVegnett()" ng-disabled="harVegnettstilknytning">Linje</button>
+</div>
+
+<h3><span class="nr">2</span>Egenskaper</h3>
+
+<div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:['viktighetnr', 'sorteringsnummer']" class="egenskapstype">
+    <h4>
+        {{egenskapstype.navn}} 
+        <span class="viktighet">{{egenskapstype.viktighet}}</span>
+    </h4>
+    
+    <ng-switch on="egenskapstype.type">
+        <!-- ENUM -->
+        <select ng-switch-when="ENUM">
+            <option value="">Velg verdi</option>
+            <option ng-repeat="enum in egenskapstype.enumVerdier" ng-value="{{enum.id}}">{{enum.verdi}}</option>
+        </select>
         
-        <h3><span class="nr">1</span>Stedfesting</h3>
+        <!-- Tekst -->
+        <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst">
         
-        <div ng-repeat="geometritype in objekttype[aktivObjekttype].geometri" class="egenskapstype">
-            <h4>{{geometritype.navn}}</h4>
-            <input type="text">
-            <a href="#" ng-click="finnPosisjon()">Finn posisjon</a>
-        </div>
-        
-        <h3><span class="nr">2</span>Egenskaper</h3>
+        <!-- Tall -->
+        <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall">
 
-        <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:['viktighetnr', 'sorteringsnummer']" class="egenskapstype">
-            <h4>
-                {{egenskapstype.navn}} 
-                <span class="viktighet">{{egenskapstype.viktighet}}</span>
-            </h4>
-            
-            <ng-switch on="egenskapstype.type">
-                <!-- ENUM -->
-                <select ng-switch-when="ENUM">
-                    <option value="">Velg verdi</option>
-                    <option ng-repeat="enum in egenskapstype.enumVerdier" ng-value="{{enum.id}}">{{enum.verdi}}</option>
-                </select>
-                
-                <!-- Tekst -->
-                <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst">
-                
-                <!-- Tall -->
-                <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall">
+        <!-- Dato -->
+        <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato">
+        
+        <!-- Klokkeslett -->
+        <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett">
+        
+        <!-- Default -->
+        <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
+    </ng-switch>
+    
+    <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
+    
+    <!--
+    <p class="beskrivelse">
+        {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
+        <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
+    </p>
+    -->
+</div>
 
-                <!-- Dato -->
-                <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato">
-                
-                <!-- Klokkeslett -->
-                <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett">
-                
-                <!-- Default -->
-                <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
-            </ng-switch>
-            
-            <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
-            
-            <!--
-            <p class="beskrivelse">
-                {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
-                <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
-            </p>
-            -->
-        </div>
-        
-        <h3><span class="nr">3</span>Datterobjekter</h3>
-        
-        
-    </div>
-    <div ng-if="aktivObjekttype == 0">
-        <p>Velg objekttype ovenfor for å starte registreringen.</p>
-    </div>
+<h3><span class="nr">3</span>Datterobjekter</h3>
 
-</section>
+</div>

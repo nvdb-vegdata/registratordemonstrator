@@ -140,3 +140,15 @@ button {
   background: #008ec2;
   cursor: pointer;
 }
+
+button[disabled] {
+  background: #ccc; 
+}
+
+input[disabled] {
+  background: #fff;
+}
+
+input[disabled]:hover {
+  border-color: #ccc;
+}
