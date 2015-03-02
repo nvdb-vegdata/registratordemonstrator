@@ -92,7 +92,7 @@
                 pointToLayer: function (feature, latlng) {
                     return L.circleMarker(latlng, {
                         radius: 5,
-                        fillColor: "#ff7800",
+                        fillColor: "blue",
                         color: "#000",
                         weight: 1,
                         opacity: 1,
@@ -108,9 +108,10 @@
             var layer = L.geoJson(geojson, {
                 style: function (feature) {
                     return {
-                        color: "#f0f",
-                        opacity: 0.4,
-                        weight: 15
+                        color: "#000",
+                        lineCap: "butt",
+                        opacity: 0.5,
+                        weight: 10
                     };
                 },
                 onEachFeature: function (feature, layer) {
@@ -121,7 +122,7 @@
                     });
                     layer.on('mouseout', function (e) {
                         e.target.setStyle({
-                            color: "#f0f"
+                            color: "#000"
                         });
                     });
                     layer.on('click', function (e) {
@@ -156,10 +157,17 @@
             var lat2 = control._endMarker._latlng.lat;
             var lon2 = control._endMarker._latlng.lng;
             
-            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng]);
+            // Legger til lokasjonslinje
+            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng], {
+                color: "blue",
+                opacity: 1,
+                weight: 3,
+                dashArray: "5, 5"
+            });
+            layers.lokasjon.addLayer(lokasjon);
             
             $rootScope.harVegnettstilknytning = true;
-            layers.lokasjon.addLayer(lokasjon);
+            
                    
             control.disable();
             $rootScope.stedfester = false;
