@@ -25,6 +25,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.stedfesting.vegnettstilknytning = '';
         $rootScope.resetLayer('egengeometri');
         $rootScope.resetLayer('lokasjon');
+        $rootScope.resetLayer('vegobjekter');
     
         // TODO: Legg til sjekk om informasjon allerede er hentet
         nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
@@ -55,7 +56,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             var objekter = promise.data.resultater[0].vegObjekter;
             var geojson = nvdbdata.geojson(objekter);
             
-            $rootScope.lagGeojson(geojson);
+            $rootScope.addVegobjekter(geojson);
 
         });
         

@@ -36,7 +36,7 @@
             continuousWorld: true,
             attribution: 'Registratordemonstrator'
         });
-        layers.nvdbdata = L.markerClusterGroup(); // For objekter hentet fra NVDB
+        layers.vegobjekter = L.markerClusterGroup(); // For objekter hentet fra NVDB
         layers.vegnett = L.layerGroup(); // For stedfesting på vegnett
         layers.egengeometri = L.layerGroup(); // For egengeometri
         layers.lokasjon = L.layerGroup(); // For symbol som viser vegnettstilknytning
@@ -47,7 +47,7 @@
             worldCopyJump: false,
             layers: [
                 layers.bakgrunnskart, 
-                layers.nvdbdata, 
+                layers.vegobjekter, 
                 layers.vegnett, 
                 layers.egengeometri,
                 layers.lokasjon
@@ -70,8 +70,9 @@
             return map.getBounds().toBBoxString();
         };
         
-                
-        $rootScope.lagGeojson = function (geojson) {
+        // Legger til vegobjekter
+        $rootScope.addVegobjekter = function (geojson) {
+            $rootScope.resetLayer('vegobjekter');
             var layer = L.geoJson(geojson, {
                 style: function (feature) {
                     return {
@@ -80,12 +81,9 @@
                         opacity: 1,
                         weight: 3
                     };
-
                 }
             });
-            
-            layers.nvdbdata.addLayer(layer);
-
+            layers.vegobjekter.addLayer(layer);
         };
         
         $rootScope.lagLokasjon = function (lokasjon) {
