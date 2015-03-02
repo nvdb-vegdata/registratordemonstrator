@@ -122,5 +122,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         });
     };
     
+    // Lagrer verdier fra registreringsskjema
+    $rootScope.egenskaper = {};
     
 }]);

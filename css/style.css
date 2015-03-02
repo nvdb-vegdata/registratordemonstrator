@@ -222,3 +222,8 @@ button.strekning:disabled {
   background-image: url("../gfx/strekning3.png");
   cursor: default;
 }
+
+input.harVerdi, select.harVerdi {
+  border-color: #FFFF99;
+  background: #FFFFE5;
+}

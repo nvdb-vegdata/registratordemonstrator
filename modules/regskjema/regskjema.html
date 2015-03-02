@@ -40,25 +40,25 @@
     
     <ng-switch on="egenskapstype.type">
         <!-- ENUM -->
-        <select ng-switch-when="ENUM">
+        <select ng-switch-when="ENUM" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
             <option value="">Velg verdi</option>
             <option ng-repeat="enum in egenskapstype.enumVerdier" ng-value="{{enum.id}}">{{enum.verdi}}</option>
         </select>
         
         <!-- Tekst -->
-        <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst">
+        <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
         
         <!-- Tall -->
-        <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall">
+        <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
         <!-- Dato -->
-        <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato">
+        <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
         
         <!-- Klokkeslett -->
-        <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett">
+        <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
         
         <!-- Default -->
-        <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default>
+        <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
     </ng-switch>
     
     <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
