@@ -24,6 +24,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.stedfesting.egengeometri = '';
         $rootScope.stedfesting.vegnettstilknytning = '';
         $rootScope.fjernEgengeometriLayer();
+        $rootScope.fjernLokasjonLayer();
     
         // TODO: Legg til sjekk om informasjon allerede er hentet
         nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
@@ -87,11 +88,13 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.harEgengeometri = false;
         $rootScope.stedfesting.egengeometri = '';
         $rootScope.fjernEgengeometriLayer();
+        $rootScope.fjernVegnettstilknytning();
     };
     
     $rootScope.fjernVegnettstilknytning = function () {
         $rootScope.harVegnettstilknytning = false;
         $rootScope.stedfesting.vegnettstilknytning = '';
+        $rootScope.fjernLokasjonLayer();
     };
     
     $rootScope.harEgengeometri = false;
@@ -106,6 +109,15 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         nvdbapi.vegreferanse(lon, lat).then(function(promise) {
             $rootScope.stedfesting.vegnettstilknytning = promise.data.visningsNavn;
             $rootScope.harVegnettstilknytning = true;
+            
+            var lokasjon = Terraformer.WKT.parse(promise.data.punktPaVegReferanseLinjeWGS84);
+            
+            console.log(lokasjon);
+            
+            $rootScope.fjernLokasjonLayer();
+            $rootScope.lagLokasjon(lokasjon);
+
+            
         });
     };
     

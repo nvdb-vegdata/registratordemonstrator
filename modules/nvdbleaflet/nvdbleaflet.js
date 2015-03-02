@@ -40,6 +40,7 @@
         var nvdblayer = L.markerClusterGroup(); // For objekter hentet fra NVDB
         var vegnettlayer = L.layerGroup(); // For stedfesting på vegnett
         var egengeometrilayer = L.layerGroup(); // For egengeometri
+        var lokasjonlayer = L.layerGroup(); // For symbol som viser vegnettstilknytning
 
         $rootScope.map = new L.map('map', {
             crs: crs, 
@@ -49,7 +50,8 @@
                 bakgrunnskart, 
                 nvdblayer, 
                 vegnettlayer, 
-                egengeometrilayer
+                egengeometrilayer,
+                lokasjonlayer
             ],
             center: [63.43,10.40],
             zoom: 13,
@@ -62,6 +64,10 @@
         $rootScope.fjernEgengeometriLayer = function () {
             egengeometrilayer.clearLayers();
         };
+        $rootScope.fjernLokasjonLayer = function () {
+            lokasjonlayer.clearLayers();
+        };
+
 
 
         $rootScope.getBbox = function () {
@@ -91,16 +97,80 @@
 
         };
         
+        $rootScope.lagLokasjon = function (lokasjon) {
+        
+            var geojsonMarkerOptions = {
+                radius: 5,
+                fillColor: "#ff7800",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            };
+        
+            var layer = L.geoJson(lokasjon, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                }
+            });
+            lokasjonlayer.addLayer(layer);
+
+        };
+        
         var control = new L.Control.LineStringSelect({});
         $rootScope.map.addControl(control);
         
         control.on('selection', function() {
             
-            console.log('test');
             console.log(control);
             console.log(control._startMarker._latlng.lat+' '+control._startMarker._latlng.lng);
-            //control.disable();
+
             
+            var lat1 = control._startMarker._latlng.lat;
+            var lon1 = control._startMarker._latlng.lng;
+            var lat2 = control._endMarker._latlng.lat;
+            var lon2 = control._endMarker._latlng.lng;
+            
+            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng]);
+            
+            $rootScope.harVegnettstilknytning = true;
+            lokasjonlayer.addLayer(lokasjon);
+                   
+            
+            control.disable();
+            $rootScope.stedfester = false;
+            vegnettlayer.clearLayers();
+            
+            $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
+            
+            nvdbapi.vegreferanse(lon1, lat1).then(function(promise) {
+            
+                var vegreferanse1 = promise.data.visningsNavn;
+                var meter1 = promise.data.meterVerdi;
+                
+                console.log(vegreferanse1);
+                
+                nvdbapi.vegreferanse(lon2, lat2).then(function(promise) {
+                
+                    var vegreferanse2 = promise.data.visningsNavn;
+                    var meter2 = promise.data.meterVerdi;
+                    
+                    console.log(vegreferanse2);
+                    
+                    if (meter1 < meter2) {
+                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse1+'-'+meter2;
+                    } else {
+                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse2+'-'+meter1;
+                    }
+                    
+                    console.log($rootScope.stedfesting.vegnettstilknytning);
+                    
+
+                    
+                });
+
+                
+            });
             
 
         });
@@ -109,9 +179,9 @@
             var layer = L.geoJson(geojson, {
                 style: function (feature) {
                     return {
-                        color: "#f00",
-                        opacity: 0.5,
-                        weight: 10
+                        color: "#f0f",
+                        opacity: 0.4,
+                        weight: 15
                     };
                 },
                 onEachFeature: function (feature, layer) {
@@ -124,7 +194,7 @@
                     });
                     layer.on('mouseout', function (e) {
                         e.target.setStyle({
-                            color: "#f00"
+                            color: "#f0f"
                         });
                     });
                     layer.on('click', function (e) {

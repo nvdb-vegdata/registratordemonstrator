@@ -18,8 +18,10 @@
 <div class="egenskapstype">
     <h4>Vegnettstilknytning</h4>
     <input type="text" ng-model="stedfesting.vegnettstilknytning" placeholder="Trykk på lenke" disabled="disabled">
-    <button ng-if="harVegnettstilknytning" ng-click="fjernVegnettstilknytning()">Fjern</button>
-    <button ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'" ng-click="hentVegnett()" ng-disabled="harVegnettstilknytning">Linje</button>
+    <span ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
+        <button ng-if="harVegnettstilknytning" ng-click="fjernVegnettstilknytning()">Fjern</button>
+        <button ng-click="hentVegnett()" ng-disabled="harVegnettstilknytning">Linje</button>
+    </span>
 </div>
 
 <h3><span class="nr">2</span>Egenskaper</h3>
