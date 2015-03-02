@@ -141,9 +141,10 @@ button:focus {
 }
 
 
-button[disabled] {
+button:disabled {
   background: #ccc; 
   border-color: #ccc;
+  cursor: default;
 }
 
 
