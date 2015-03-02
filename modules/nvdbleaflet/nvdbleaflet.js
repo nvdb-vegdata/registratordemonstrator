@@ -60,22 +60,17 @@
             }
         });
         
+        // Fjerner alle layers fra en gitt layergroup
         $rootScope.resetLayer = function (layer) {
             layers[layer].clearLayers();
         };
         
-
-        
+        // Leverer boundingbox som en streng, for bruk i kall mot API
         $rootScope.getBbox = function () {
-
-            var northEast = map.getBounds()._northEast;
-            var southWest = map.getBounds()._southWest;
-
-            var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
-            
-            return bbox;
+            return map.getBounds().toBBoxString();
         };
         
+                
         $rootScope.lagGeojson = function (geojson) {
             var layer = L.geoJson(geojson, {
                 style: function (feature) {
