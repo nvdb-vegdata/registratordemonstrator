@@ -80,7 +80,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             var objekter = promise.data.resultater[0].vegObjekter;
             var geojson = nvdbdata.geojson(objekter);
             
-            $rootScope.tegnVegnett(geojson);
+            $rootScope.addVegnett(geojson);
 
         });
     };
@@ -116,7 +116,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             console.log(lokasjon);
             
             $rootScope.resetLayer('lokasjon');
-            $rootScope.lagLokasjon(lokasjon);
+            $rootScope.addLokasjon(lokasjon);
 
             
         });

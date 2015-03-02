@@ -114,11 +114,6 @@ select.velg_objekttype {
   font-size: 1.4em;
 }
 
-select:hover, input[type=text]:hover {
-  border-color: #444;
-}
-
-
 input[type=text] {
   width: calc(100% - 14px);
   padding: 6px;
@@ -145,14 +140,90 @@ button:focus {
   background: #f00;
 }
 
+
 button[disabled] {
   background: #ccc; 
+  border-color: #ccc;
 }
 
-input[disabled] {
+
+.egengeometri {
+  overflow: auto;
+  box-shadow: 0px 0px 4px #eee;
+}
+
+.egengeometri input[type=text] {
+  float: left;
+  width: calc(100% - 190px - 14px);
+  padding: 6px;
+  border: 1px solid #fff;
   background: #fff;
 }
 
-input[disabled]:hover {
-  border-color: #ccc;
+.egengeometri div {
+  float: left;
+  width: 190px;
+  text-align: right;
+}
+
+button.punkt, button.linje, button.flate {
+  width: auto;
+  padding: 6px;
+}
+
+
+.lokasjon {
+  overflow: auto;
+  box-shadow: 0px 0px 4px #eee;
+}
+
+.lokasjon input[type=text] {
+  float: left;
+  width: calc(100% - 100px - 14px);
+  padding: 6px;
+  border: 1px solid #fff;
+  background: #fff;
+}
+
+.lokasjon div {
+  float: left;
+  width: 100px;
+  text-align: right;
+}
+
+button.fjern {
+  width: auto;
+  font-size: 1.8em;
+  font-weight: 600;
+  padding: 2px 10px 5px 10px;
+  color: #f00;
+  border: 1px solid #fff;
+  background: #fff;
+}
+
+button.fjern:hover {
+  color: #f0f;
+}
+
+
+button.strekning {
+  width: 45px;
+  overflow: hidden;
+  font-size: 1.4em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  padding: 6px 0;
+  color: #fff;
+  border: 1px solid #fff;
+  background: #fff url("../gfx/strekning.png") no-repeat 50% 50%;
+  cursor: pointer;
+}
+
+button.strekning:hover {
+  background-image: url("../gfx/strekning2.png");
+}
+
+button.strekning:disabled {
+  background-image: url("../gfx/strekning3.png");
+  cursor: default;
 }

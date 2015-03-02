@@ -86,85 +86,25 @@
             layers.vegobjekter.addLayer(layer);
         };
         
-        $rootScope.lagLokasjon = function (lokasjon) {
-        
-            var geojsonMarkerOptions = {
-                radius: 5,
-                fillColor: "#ff7800",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            };
-        
+        // Legger til symbol som viser objektets stedfesting til vegnettet
+        $rootScope.addLokasjon = function (lokasjon) {
             var layer = L.geoJson(lokasjon, {
                 pointToLayer: function (feature, latlng) {
-                    return L.circleMarker(latlng, geojsonMarkerOptions);
+                    return L.circleMarker(latlng, {
+                        radius: 5,
+                        fillColor: "#ff7800",
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    });
                 }
             });
             layers.lokasjon.addLayer(layer);
-
         };
         
-        var control = new L.Control.LineStringSelect({});
-        map.addControl(control);
-        
-        control.on('selection', function() {
-            
-            console.log(control);
-            console.log(control._startMarker._latlng.lat+' '+control._startMarker._latlng.lng);
-
-            
-            var lat1 = control._startMarker._latlng.lat;
-            var lon1 = control._startMarker._latlng.lng;
-            var lat2 = control._endMarker._latlng.lat;
-            var lon2 = control._endMarker._latlng.lng;
-            
-            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng]);
-            
-            $rootScope.harVegnettstilknytning = true;
-            layers.lokasjon.addLayer(lokasjon);
-                   
-            
-            control.disable();
-            $rootScope.stedfester = false;
-            layers.vegnett.clearLayers();
-            
-            $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
-            
-            nvdbapi.vegreferanse(lon1, lat1).then(function(promise) {
-            
-                var vegreferanse1 = promise.data.visningsNavn;
-                var meter1 = promise.data.meterVerdi;
-                
-                console.log(vegreferanse1);
-                
-                nvdbapi.vegreferanse(lon2, lat2).then(function(promise) {
-                
-                    var vegreferanse2 = promise.data.visningsNavn;
-                    var meter2 = promise.data.meterVerdi;
-                    
-                    console.log(vegreferanse2);
-                    
-                    if (meter1 < meter2) {
-                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse1+'-'+meter2;
-                    } else {
-                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse2+'-'+meter1;
-                    }
-                    
-                    console.log($rootScope.stedfesting.vegnettstilknytning);
-                    
-
-                    
-                });
-
-                
-            });
-            
-
-        });
-        
-        $rootScope.tegnVegnett = function (geojson) {
+        // Legger til vegnett som strekningsobjekter skal stedfestes på
+        $rootScope.addVegnett = function (geojson) {
             var layer = L.geoJson(geojson, {
                 style: function (feature) {
                     return {
@@ -174,8 +114,6 @@
                     };
                 },
                 onEachFeature: function (feature, layer) {
-                    //console.log(layer);
-                    //console.log(feature);
                     layer.on('mouseover', function (e) {
                         e.target.setStyle({
                             color: "#0f0"
@@ -201,8 +139,49 @@
                 }
             });
             layers.vegnett.addLayer(layer);
-
         };
+
+        
+        var control = new L.Control.LineStringSelect({});
+        map.addControl(control);
+        
+        control.on('selection', function() {
+            
+            console.log(control);
+            console.log(control._startMarker._latlng.lat+' '+control._startMarker._latlng.lng);
+
+            
+            var lat1 = control._startMarker._latlng.lat;
+            var lon1 = control._startMarker._latlng.lng;
+            var lat2 = control._endMarker._latlng.lat;
+            var lon2 = control._endMarker._latlng.lng;
+            
+            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng]);
+            
+            $rootScope.harVegnettstilknytning = true;
+            layers.lokasjon.addLayer(lokasjon);
+                   
+            control.disable();
+            $rootScope.stedfester = false;
+            layers.vegnett.clearLayers();
+            
+            $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
+            
+            nvdbapi.vegreferanse(lon1, lat1).then(function(promise) {
+                var vegreferanse1 = promise.data.visningsNavn;
+                var meter1 = promise.data.meterVerdi;
+                nvdbapi.vegreferanse(lon2, lat2).then(function(promise) {
+                    var vegreferanse2 = promise.data.visningsNavn;
+                    var meter2 = promise.data.meterVerdi;
+                    if (meter1 < meter2) {
+                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse1+'–'+meter2;
+                    } else {
+                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse2+'–'+meter1;
+                    }
+                });
+            });
+        });
+        
 
 
         
@@ -235,12 +214,10 @@
         
         map.on('editable:vertex:dragend', function (e) {
             $rootScope.oppdaterEgengeometri(e.layer);
-            console.log('vertex-dragend');
         });
         
         map.on('editable:vertex:deleted', function (e) {
             $rootScope.oppdaterEgengeometri(e.layer);
-            console.log('vertex-deleted');
         });
         
         $rootScope.oppdaterEgengeometri = function (layer) {
