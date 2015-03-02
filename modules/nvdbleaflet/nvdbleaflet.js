@@ -41,7 +41,7 @@
         layers.egengeometri = L.layerGroup(); // For egengeometri
         layers.lokasjon = L.layerGroup(); // For symbol som viser vegnettstilknytning
 
-        $rootScope.map = new L.map('map', {
+        var map = new L.map('map', {
             crs: crs, 
             continuousWorld: true,
             worldCopyJump: false,
@@ -68,8 +68,8 @@
         
         $rootScope.getBbox = function () {
 
-            var northEast = $rootScope.map.getBounds()._northEast;
-            var southWest = $rootScope.map.getBounds()._southWest;
+            var northEast = map.getBounds()._northEast;
+            var southWest = map.getBounds()._southWest;
 
             var bbox = northEast.lng+','+northEast.lat+','+southWest.lng+','+southWest.lat;
             
@@ -114,7 +114,7 @@
         };
         
         var control = new L.Control.LineStringSelect({});
-        $rootScope.map.addControl(control);
+        map.addControl(control);
         
         control.on('selection', function() {
             
@@ -213,7 +213,7 @@
 
 
         
-        $rootScope.map.on('editable:drawing:commit', function (e) {
+        map.on('editable:drawing:commit', function (e) {
             console.log(e);
             
             $rootScope.oppdaterEgengeometri(e.layer);
@@ -240,12 +240,12 @@
         });
         
         
-        $rootScope.map.on('editable:vertex:dragend', function (e) {
+        map.on('editable:vertex:dragend', function (e) {
             $rootScope.oppdaterEgengeometri(e.layer);
             console.log('vertex-dragend');
         });
         
-        $rootScope.map.on('editable:vertex:deleted', function (e) {
+        map.on('editable:vertex:deleted', function (e) {
             $rootScope.oppdaterEgengeometri(e.layer);
             console.log('vertex-deleted');
         });
@@ -262,14 +262,14 @@
         
         
         $rootScope.startMarker = function () {
-            $rootScope.map.editTools.startMarker();
+            map.editTools.startMarker();
             
         };
         $rootScope.startPolyline = function () {
-            $rootScope.map.editTools.startPolyline();
+            map.editTools.startPolyline();
         };
         $rootScope.startPolygon = function () {
-            $rootScope.map.editTools.startPolygon();
+            map.editTools.startPolygon();
         };
         
         
