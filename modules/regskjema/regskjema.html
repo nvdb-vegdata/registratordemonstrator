@@ -22,7 +22,7 @@
 <div class="egenskapstype">
     <h4>Vegnettstilknytning</h4>
     <div class="lokasjon">
-        <input type="text" ng-model="stedfesting.vegnettstilknytning" placeholder="Stedfest objekt med knappen til høyre" disabled="disabled">
+        <input type="text" ng-model="stedfesting.vegnettstilknytning" placeholder="Stedfest objekt" disabled="disabled">
         <div ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
             <button ng-if="harVegnettstilknytning" ng-click="fjernVegnettstilknytning()" class="fjern" title="Fjern vegnettstilknytning">x</button>
             <button ng-click="hentVegnett()" ng-disabled="harVegnettstilknytning" class="strekning" title="Stedfest objekt">i</button>
