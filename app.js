@@ -125,4 +125,16 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     // Lagrer verdier fra registreringsskjema
     $rootScope.egenskaper = {};
     
+    // Beskrivelse av viktighetsparametere
+    
+    $rootScope.viktighet = {
+        1: "Egenskapen må ha verdi for at objektet skal bli registrert",
+        2: "Egenskapen må ha verdi for at objektet skal bli registrert",
+        3: "Egenskapen må ha verdi under visse betingelser",
+        4: "Egenskapen er valgfri",
+        7: "Egenskapen er valgfri",
+        9: "Egenskapen skal fjernes, og eventuelle verdier slettes",
+        999: "Det er ikke tatt stilling til om egenskapen skal ha verdi"
+    }
+    
 }]);
