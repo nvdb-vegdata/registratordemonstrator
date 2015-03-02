@@ -8,6 +8,7 @@
                 var egenskapstyper = objekttype.egenskapsTyper;
                 objekttype.egenskapsTyper = [];
                 objekttype.geometri = [];
+                objekttype.egengeometri = false;
                 
                 var viktighet = {
                     "P\u00C5KREVD_ABSOLUTT": 1,
@@ -30,12 +31,15 @@
                             break;
                         case 'Geometri, punkt':
                             objekttype.geometri.push(egenskapstype);
+                            objekttype.egengeometri = true;
                             break;
                         case 'Geometri, linje':
                             objekttype.geometri.push(egenskapstype);
+                            objekttype.egengeometri = true;
                             break;
                         case 'Geometri, flate':
                             objekttype.geometri.push(egenskapstype);
+                            objekttype.egengeometri = true;
                             break;
                         default:
                             egenskapstype.viktighetnr = viktighet[egenskapstype.viktighet];

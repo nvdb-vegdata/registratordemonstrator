@@ -4,7 +4,7 @@
 
 <h3><span class="nr">1</span>Stedfesting</h3>
 
-<div class="egenskapstype">
+<div class="egenskapstype" ng-if="objekttype[aktivObjekttype].egengeometri">
     <h4>Egengeometri</h4>
     <div class="egengeometri">
         <input type="text" ng-model="stedfesting.egengeometri" placeholder="Trykk i kart" disabled="disabled">
