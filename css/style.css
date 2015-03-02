@@ -70,11 +70,17 @@ h4[title]:after {
 
 
 p {
-  margin: 5px 0 0 0;
-  font-size: 1.2em;
+  margin: 1em 0;
+  font-size: 1.4em;
+}
+
+.ingress {
+  font-size: 1.6em;
 }
 
 .beskrivelse {
+  margin: 5px 0 0 0;
+  font-size: 1.2em;
   color: #777;
 }
 
