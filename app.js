@@ -26,6 +26,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.resetLayer('egengeometri');
         $rootScope.resetLayer('lokasjon');
         $rootScope.resetLayer('vegobjekter');
+        $rootScope.egenskaper = {};
     
         // TODO: Legg til sjekk om informasjon allerede er hentet
         nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
@@ -98,6 +99,21 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.resetLayer('lokasjon');
     };
     
+    $rootScope.registrerObjekt = function () {
+        var output = '';
+        output += 'Egengeometri: \n'+$rootScope.stedfesting.egengeometri+'\n\n';
+        output += 'Lokasjon: \n'+$rootScope.stedfesting.vegnettstilknytning+'\n\n';
+        
+        var egenskapstyper = $rootScope.objekttype[$rootScope.aktivObjekttype].egenskapsTyper;
+        for (var i = 0; i < egenskapstyper.length; i++) {
+            if ($rootScope.egenskaper[egenskapstyper[i].id]) {
+                output += egenskapstyper[i].navn+': \n'+$rootScope.egenskaper[egenskapstyper[i].id]+'\n\n';
+            }
+            
+        }
+        alert(output);
+    };
+    
     $rootScope.harEgengeometri = false;
     $rootScope.harVegnettstilknytning = false;
     $rootScope.stedfester = false;
@@ -135,6 +151,8 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         7: "Egenskapen er valgfri",
         9: "Egenskapen skal fjernes, og eventuelle verdier slettes",
         999: "Det er ikke tatt stilling til om egenskapen skal ha verdi"
-    }
+    };
+    
+    
     
 }]);
