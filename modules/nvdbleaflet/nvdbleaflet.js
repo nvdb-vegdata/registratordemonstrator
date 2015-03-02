@@ -2,7 +2,6 @@
 
     .controller("nvdbleafletCtrl", ['$rootScope', 'nvdbapi', function ($rootScope, nvdbapi) {
 
-
         var crs = new L.Proj.CRS('EPSG:25833',
             '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs ',
             {
@@ -29,47 +28,44 @@
             }
         );
             
-        var bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}', {
+        var layers = {};
+        layers.bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}', {
             maxZoom: 16,
             minZoom: 3,	
             subdomains: '123456789',
             continuousWorld: true,
             attribution: 'Registratordemonstrator'
         });
-        
-        var nvdblayer = L.markerClusterGroup(); // For objekter hentet fra NVDB
-        var vegnettlayer = L.layerGroup(); // For stedfesting på vegnett
-        var egengeometrilayer = L.layerGroup(); // For egengeometri
-        var lokasjonlayer = L.layerGroup(); // For symbol som viser vegnettstilknytning
+        layers.nvdbdata = L.markerClusterGroup(); // For objekter hentet fra NVDB
+        layers.vegnett = L.layerGroup(); // For stedfesting på vegnett
+        layers.egengeometri = L.layerGroup(); // For egengeometri
+        layers.lokasjon = L.layerGroup(); // For symbol som viser vegnettstilknytning
 
         $rootScope.map = new L.map('map', {
             crs: crs, 
             continuousWorld: true,
             worldCopyJump: false,
             layers: [
-                bakgrunnskart, 
-                nvdblayer, 
-                vegnettlayer, 
-                egengeometrilayer,
-                lokasjonlayer
+                layers.bakgrunnskart, 
+                layers.nvdbdata, 
+                layers.vegnett, 
+                layers.egengeometri,
+                layers.lokasjon
             ],
             center: [63.43,10.40],
             zoom: 13,
             editable: true,
             editOptions: {
-                featuresLayer: egengeometrilayer
+                featuresLayer: layers.egengeometri
             }
         });
         
-        $rootScope.fjernEgengeometriLayer = function () {
-            egengeometrilayer.clearLayers();
+        $rootScope.resetLayer = function (layer) {
+            layers[layer].clearLayers();
         };
-        $rootScope.fjernLokasjonLayer = function () {
-            lokasjonlayer.clearLayers();
-        };
+        
 
-
-
+        
         $rootScope.getBbox = function () {
 
             var northEast = $rootScope.map.getBounds()._northEast;
@@ -93,7 +89,7 @@
                 }
             });
             
-            nvdblayer.addLayer(layer);
+            layers.nvdbdata.addLayer(layer);
 
         };
         
@@ -113,7 +109,7 @@
                     return L.circleMarker(latlng, geojsonMarkerOptions);
                 }
             });
-            lokasjonlayer.addLayer(layer);
+            layers.lokasjon.addLayer(layer);
 
         };
         
@@ -134,12 +130,12 @@
             var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng]);
             
             $rootScope.harVegnettstilknytning = true;
-            lokasjonlayer.addLayer(lokasjon);
+            layers.lokasjon.addLayer(lokasjon);
                    
             
             control.disable();
             $rootScope.stedfester = false;
-            vegnettlayer.clearLayers();
+            layers.vegnett.clearLayers();
             
             $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
             
@@ -211,7 +207,7 @@
                     });
                 }
             });
-            vegnettlayer.addLayer(layer);
+            layers.vegnett.addLayer(layer);
 
         };
 

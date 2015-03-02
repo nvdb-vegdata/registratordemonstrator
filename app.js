@@ -23,8 +23,8 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.harVegnettstilknytning = false;
         $rootScope.stedfesting.egengeometri = '';
         $rootScope.stedfesting.vegnettstilknytning = '';
-        $rootScope.fjernEgengeometriLayer();
-        $rootScope.fjernLokasjonLayer();
+        $rootScope.resetLayer('egengeometri');
+        $rootScope.resetLayer('lokasjon');
     
         // TODO: Legg til sjekk om informasjon allerede er hentet
         nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
@@ -87,14 +87,14 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     $rootScope.fjernEgengeometri = function () {
         $rootScope.harEgengeometri = false;
         $rootScope.stedfesting.egengeometri = '';
-        $rootScope.fjernEgengeometriLayer();
+        $rootScope.resetLayer('egengeometri');
         $rootScope.fjernVegnettstilknytning();
     };
     
     $rootScope.fjernVegnettstilknytning = function () {
         $rootScope.harVegnettstilknytning = false;
         $rootScope.stedfesting.vegnettstilknytning = '';
-        $rootScope.fjernLokasjonLayer();
+        $rootScope.resetLayer('lokasjon');
     };
     
     $rootScope.harEgengeometri = false;
@@ -114,7 +114,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             
             console.log(lokasjon);
             
-            $rootScope.fjernLokasjonLayer();
+            $rootScope.resetLayer('lokasjon');
             $rootScope.lagLokasjon(lokasjon);
 
             
