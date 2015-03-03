@@ -65,18 +65,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     
     $rootScope.hentVegnett = function () {
 
-        var sokeobjekt = {
-            lokasjon: {
-                srid: 'WGS84',
-                bbox: $rootScope.getBbox()
-            },
-            objektTyper: [{
-                id: 532,
-                antall: 100000
-            }]
-        }
-        
-        nvdbapi.vegreferanseobjekter(sokeobjekt).then(function(promise) { 
+        nvdbapi.vegreferanseobjekter($rootScope.getBbox()).then(function(promise) { 
         
             var objekter = promise.data.resultater[0].vegObjekter;
             

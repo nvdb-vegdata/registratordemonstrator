@@ -22,7 +22,18 @@
             vegreferanse: function(lon, lat) {
                 return $http.get(api+'/vegreferanse/koordinat.json?lon='+lon+'&lat='+lat);
             },
-            vegreferanseobjekter: function(sokeobjekt) {
+            vegreferanseobjekter: function(bbox) {
+                var sokeobjekt = {
+                    lokasjon: {
+                        srid: 'WGS84',
+                        bbox: bbox
+                    },
+                    objektTyper: [{
+                        id: 532,
+                        antall: 100000
+                    }]
+                }
+            
                 return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&geometri=WGS84&egenskaper=false');
             },
         };
