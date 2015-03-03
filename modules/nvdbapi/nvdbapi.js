@@ -4,6 +4,9 @@
         var api = 'https://www.vegvesen.no/nvdb/api';
         
         return {
+            objekt: function(nvdbid) {
+                return $http.get(api+'/vegobjekter/objekt/'+nvdbid+'.json');
+            },
             objekttyper: function() {
                 return $http.get(api+'/datakatalog/objekttyper.json');
             },

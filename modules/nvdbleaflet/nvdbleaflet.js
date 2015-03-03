@@ -1,6 +1,6 @@
 ﻿angular.module('nvdbleaflet', [])
 
-    .controller("nvdbleafletCtrl", ['$rootScope', 'nvdbapi', function ($rootScope, nvdbapi) {
+    .controller("nvdbleafletCtrl", ['$rootScope', 'nvdbapi', 'nvdbdata', function ($rootScope, nvdbapi, nvdbdata) {
     
         var crs = new L.Proj.CRS('EPSG:25833',
             '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs ',
@@ -83,6 +83,35 @@
                         opacity: 1,
                         weight: 3
                     };
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.on('click', function (e) {
+                        
+                        // e.target.enableEdit();
+
+                        $rootScope.resetEgenskaper();
+                        
+                        var nvdbid = e.target.feature.properties.id;
+                        console.log(nvdbid);
+                        nvdbapi.objekt(nvdbid).then(function(promise) {
+                            console.log(promise.data);
+                            var egenskaper = promise.data.egenskaper;
+                            
+                            for (var i = 0; i < egenskaper.length; i++) {
+                                $rootScope.egenskaper[egenskaper[i].id] = egenskaper[i].verdi;
+                            }
+                            
+                            $rootScope.stedfesting.vegnettstilknytning = nvdbdata.vegreferanse(promise.data.lokasjon.vegReferanser[0]);
+                            $rootScope.harVegnettstilknytning = true;
+                            
+                            if (promise.data.lokasjon.egengeometri) {
+                                $rootScope.stedfesting.egengeometri = promise.data.lokasjon.geometriWgs84;
+                                $rootScope.harEgengeometri = true;
+                            }
+                            
+                        });
+                        
+                    });
                 }
             });
             layers.vegobjekter.addLayer(layer);

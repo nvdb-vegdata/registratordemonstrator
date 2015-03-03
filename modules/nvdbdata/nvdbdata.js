@@ -49,6 +49,7 @@
                           
                 return objekttype;
             },
+            
             geojson: function(objekter) {
                 var geojson = [];
                 
@@ -64,6 +65,16 @@
                     geojson.push(geojsonFeature);
                 }
                 return geojson;
+            },
+            
+            vegreferanse: function(v) {
+                var vegreferanse = v.kategori+v.status+' '+v.nummer+' HP'+v.hp+' m'+v.fraMeter;
+                
+                if (v.hasOwnProperty('tilMeter')) {
+                    vegreferanse += '–'+v.tilMeter;
+                }
+                
+                return vegreferanse;
             }
             
         };
