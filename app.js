@@ -17,22 +17,18 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     // Henter egenskapstyper for aktiv objekttype
     $rootScope.hentObjekttype = function () {
     
-        // Fjerner gammel egengeometri. Puttes i egen reset-funksjon etter hvert
-        $rootScope.harEgengeometri = false;
-        $rootScope.harVegnettstilknytning = false;
-        $rootScope.stedfesting.egengeometri = '';
-        $rootScope.stedfesting.vegnettstilknytning = '';
-        $rootScope.resetLayer('egengeometri');
-        $rootScope.resetLayer('lokasjon');
+        // Nullstiller modellen
+        $rootScope.resetObjekt();
         $rootScope.resetLayer('vegobjekter');
         $rootScope.egenskaper = {};
-        $rootScope.resetEgenskaper();
-    
-        // TODO: Legg til sjekk om informasjon allerede er hentet
-        nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
-            var data = nvdbdata.objekttype(promise.data);
-            $rootScope.objekttype[$rootScope.aktivObjekttype] = data;
-        });
+        
+ 
+        if (!$rootScope.objekttype.hasOwnProperty($rootScope.aktivObjekttype)) {
+            nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
+                var data = nvdbdata.objekttype(promise.data);
+                $rootScope.objekttype[$rootScope.aktivObjekttype] = data;
+            });
+        }
     };
  
     
@@ -133,23 +129,11 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         });
     };
     
-    $rootScope.fjernEgengeometri = function () {
-        $rootScope.harEgengeometri = false;
-        $rootScope.stedfesting.egengeometri = '';
-        $rootScope.resetLayer('egengeometri');
-        $rootScope.fjernVegnettstilknytning();
-    };
-    
-    $rootScope.fjernVegnettstilknytning = function () {
-        $rootScope.harVegnettstilknytning = false;
-        $rootScope.stedfesting.vegnettstilknytning = '';
-        $rootScope.resetLayer('lokasjon');
-    };
     
     $rootScope.registrerObjekt = function () {
         var output = '';
-        output += 'Egengeometri: \n'+$rootScope.stedfesting.egengeometri+'\n\n';
-        output += 'Lokasjon: \n'+$rootScope.stedfesting.vegnettstilknytning+'\n\n';
+        output += 'Egengeometri: \n'+$rootScope.egengeometri+'\n\n';
+        output += 'Lokasjon: \n'+$rootScope.lokasjon+'\n\n';
         
         var egenskapstyper = $rootScope.objekttype[$rootScope.aktivObjekttype].egenskapsTyper;
         for (var i = 0; i < egenskapstyper.length; i++) {
@@ -161,18 +145,43 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         alert(output);
     };
     
-    $rootScope.harEgengeometri = false;
-    $rootScope.harVegnettstilknytning = false;
+    
+    
+    // Variabler som lagrer verdier fra registreringsskjema
+    $rootScope.egenskaper = {};
+    $rootScope.egengeometri = '';
+    $rootScope.lokasjon = '';
+
+    // Funksjoner for å nullestille modellen
+    $rootScope.resetEgenskaper = function () {
+        for (nr in $rootScope.egenskaper) {
+            $rootScope.egenskaper[nr] = '';
+        }
+    };
+    $rootScope.resetEgengeometri = function () {
+        $rootScope.egengeometri = '';
+        $rootScope.resetLayer('egengeometri');
+        $rootScope.resetLokasjon();
+    };
+    $rootScope.resetLokasjon = function () {
+        $rootScope.lokasjon = '';
+        $rootScope.resetLayer('lokasjon');
+    };
+    $rootScope.resetObjekt = function () {
+        $rootScope.resetEgenskaper();
+        $rootScope.resetEgengeometri();
+    };
+    
+    
+    
+    // Denne kan kanskje fjernes?
     $rootScope.stedfester = false;
-    $rootScope.stedfesting = {};
-    $rootScope.stedfesting.egengeometri = '';
-    $rootScope.stedfesting.vegnettstilknytning = '';
+
     
     $rootScope.finnVegreferanse = function (lon, lat) {
-        $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
+        $rootScope.lokasjon = 'Henter vegreferanse ...';
         nvdbapi.vegreferanse(lon, lat).then(function(promise) {
-            $rootScope.stedfesting.vegnettstilknytning = promise.data.visningsNavn;
-            $rootScope.harVegnettstilknytning = true;
+            $rootScope.lokasjon = promise.data.visningsNavn;
             
             var lokasjon = Terraformer.WKT.parse(promise.data.punktPaVegReferanseLinjeWGS84);
             
@@ -185,14 +194,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         });
     };
     
-    // Lagrer verdier fra registreringsskjema
-    $rootScope.egenskaper = {};
-    
-    $rootScope.resetEgenskaper = function () {
-        for (nr in $rootScope.egenskaper) {
-            $rootScope.egenskaper[nr] = '';
-        }
-    };
+
     
     // Beskrivelse av viktighetsparametere
     $rootScope.viktighet = {
@@ -205,7 +207,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         999: "Det er ikke tatt stilling til om egenskapen skal ha verdi"
     };
     
-    
+    // Test av malkonsept
     $rootScope.mal = {};
     $rootScope.mal[470] = {
         "Maltittel": {
@@ -222,7 +224,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
                 {
                     id: 3874,
                     verdi: 3
-                },
+                }
             ]
         },
         "Maltittel2": {
@@ -243,7 +245,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
                 {
                     id: 3518,
                     verdi: "Telenor"
-                },
+                }
             ]
         }
     };

@@ -56,13 +56,13 @@
     <div class="egenskapstype" ng-if="objekttype[aktivObjekttype].egengeometri">
         <h4>Egengeometri</h4>
         <div class="egengeometri">
-            <input type="text" ng-model="stedfesting.egengeometri" placeholder="Trykk i kart" disabled="disabled">
+            <input type="text" ng-model="egengeometri" placeholder="Trykk i kart" disabled="disabled">
             <div>
-            <button ng-if="harEgengeometri" ng-click="fjernEgengeometri()" class="fjern">x</button>
+                <button ng-if="egengeometri" ng-click="resetEgengeometri()" class="fjern">x</button>
                 <span ng-repeat="geometritype in objekttype[aktivObjekttype].geometri">
-                    <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="harEgengeometri" class="punkt">Punkt</button>
-                    <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="harEgengeometri" class="linje">Linje</button>
-                    <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="harEgengeometri" class="flate">Flate</button>
+                    <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="egengeometri" class="punkt">Punkt</button>
+                    <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="egengeometri" class="linje">Linje</button>
+                    <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="egengeometri" class="flate">Flate</button>
                 </span>
             </div>
         </div>
@@ -71,10 +71,10 @@
     <div class="egenskapstype">
         <h4>Vegnettstilknytning</h4>
         <div class="lokasjon">
-            <input type="text" ng-model="stedfesting.vegnettstilknytning" placeholder="Stedfest objekt" disabled="disabled">
+            <input type="text" ng-model="lokasjon" placeholder="Stedfest objekt" disabled="disabled">
             <div ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
-                <button ng-if="harVegnettstilknytning" ng-click="fjernVegnettstilknytning()" class="fjern" title="Fjern vegnettstilknytning">x</button>
-                <button ng-click="hentVegnett()" ng-disabled="harVegnettstilknytning" class="strekning" title="Stedfest objekt">i</button>
+                <button ng-if="lokasjon" ng-click="resetLokasjon()" class="fjern" title="Fjern vegnettstilknytning">x</button>
+                <button ng-click="hentVegnett()" ng-disabled="lokasjon" class="strekning" title="Stedfest objekt">i</button>
             </div>
         </div>
     </div>

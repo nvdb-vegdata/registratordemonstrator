@@ -89,7 +89,7 @@
                         
                         // e.target.enableEdit();
 
-                        $rootScope.resetEgenskaper();
+                        $rootScope.resetObjekt();
                         
                         var nvdbid = e.target.feature.properties.id;
 
@@ -101,12 +101,10 @@
                                 $rootScope.egenskaper[egenskaper[i].id] = egenskaper[i].verdi;
                             }
                             
-                            $rootScope.stedfesting.vegnettstilknytning = nvdbdata.vegreferanse(promise.data.lokasjon.vegReferanser[0]);
-                            $rootScope.harVegnettstilknytning = true;
+                            $rootScope.lokasjon = nvdbdata.vegreferanse(promise.data.lokasjon.vegReferanser[0]);
                             
                             if (promise.data.lokasjon.egengeometri) {
-                                $rootScope.stedfesting.egengeometri = promise.data.lokasjon.geometriWgs84;
-                                $rootScope.harEgengeometri = true;
+                                $rootScope.egengeometri = promise.data.lokasjon.geometriWgs84;
                             }
                             
                         });
@@ -197,16 +195,13 @@
                 weight: 3,
                 dashArray: "5, 5"
             });
-            layers.lokasjon.addLayer(lokasjon);
-            
-            $rootScope.harVegnettstilknytning = true;
-            
+            layers.lokasjon.addLayer(lokasjon);          
                    
             control.disable();
             $rootScope.stedfester = false;
             layers.vegnett.clearLayers();
             
-            $rootScope.stedfesting.vegnettstilknytning = 'Henter vegreferanse ...';
+            $rootScope.lokasjon = 'Henter vegreferanse ...';
             
             nvdbapi.vegreferanse(lon1, lat1).then(function(promise) {
                 var vegreferanse1 = promise.data.visningsNavn;
@@ -215,9 +210,9 @@
                     var vegreferanse2 = promise.data.visningsNavn;
                     var meter2 = promise.data.meterVerdi;
                     if (meter1 < meter2) {
-                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse1+'–'+meter2;
+                        $rootScope.lokasjon = vegreferanse1+'–'+meter2;
                     } else {
-                        $rootScope.stedfesting.vegnettstilknytning = vegreferanse2+'–'+meter1;
+                        $rootScope.lokasjon = vegreferanse2+'–'+meter1;
                     }
                 });
             });
@@ -266,8 +261,7 @@
             var wkt = Terraformer.WKT.convert(geometri);
             
             $rootScope.$apply(function () {
-                $rootScope.stedfesting.egengeometri = wkt;
-                $rootScope.harEgengeometri = true;
+                $rootScope.egengeometri = wkt;
             });
         };
         
