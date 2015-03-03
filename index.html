@@ -57,14 +57,13 @@
         <h4>Egengeometri</h4>
         <div class="egengeometri">
             <input type="text" ng-model="egengeometri" placeholder="Trykk i kart" disabled="disabled">
-            <div>
+            
                 <button ng-if="egengeometri" ng-click="resetEgengeometri()" class="fjern">x</button>
                 <span ng-repeat="geometritype in objekttype[aktivObjekttype].geometri">
                     <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="egengeometri" class="punkt">Punkt</button>
                     <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="egengeometri" class="linje">Linje</button>
                     <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="egengeometri" class="flate">Flate</button>
                 </span>
-            </div>
         </div>
     </div>
 
@@ -72,10 +71,10 @@
         <h4>Vegnettstilknytning</h4>
         <div class="lokasjon">
             <input type="text" ng-model="lokasjon" placeholder="Stedfest objekt" disabled="disabled">
-            <div ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
+            <span ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
                 <button ng-if="lokasjon" ng-click="resetLokasjon()" class="fjern" title="Fjern vegnettstilknytning">x</button>
                 <button ng-click="hentVegnett()" ng-disabled="lokasjon" class="strekning" title="Stedfest objekt">i</button>
-            </div>
+            </span>
         </div>
     </div>
 
