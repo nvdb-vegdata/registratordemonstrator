@@ -170,12 +170,33 @@ button:disabled {
   background: #fff;
 }
 
-
-
-button.punkt, button.linje, button.flate {
-  width: auto;
-  padding: 6px;
+button.draw {
+  width: 35px;
+  height: 35px;
+  padding: 2px 0 0 0;
+  border: 2px solid #fff;
+  border-left: none;
+  background: #f7f7f7;
+  text-align: center;
 }
+
+button.draw:focus {
+  background: #ccc;
+}
+
+button.draw svg {
+  height: 20px;
+  fill: #008ec2; 
+}
+
+button.draw:hover svg {
+  fill: #ff9600; 
+}
+
+button.draw:disabled svg {
+  fill: #ccc; 
+}
+
 
 
 button.fjern {
@@ -192,28 +213,6 @@ button.fjern:hover {
   color: #f0f;
 }
 
-
-button.strekning {
-  width: 45px;
-  overflow: hidden;
-  font-size: 1.4em;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 400;
-  padding: 6px 0;
-  color: #fff;
-  border: 1px solid #fff;
-  background: #fff url("../gfx/strekning.png") no-repeat 50% 50%;
-  cursor: pointer;
-}
-
-button.strekning:hover {
-  background-image: url("../gfx/strekning2.png");
-}
-
-button.strekning:disabled {
-  background-image: url("../gfx/strekning3.png");
-  cursor: default;
-}
 
 input.harVerdi, select.harVerdi {
   border-color: #FFFF99;

@@ -60,9 +60,15 @@
             
                 <button ng-if="egengeometri" ng-click="resetEgengeometri()" class="fjern">x</button>
                 <span ng-repeat="geometritype in objekttype[aktivObjekttype].geometri">
-                    <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="egengeometri" class="punkt">Punkt</button>
-                    <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="egengeometri" class="linje">Linje</button>
-                    <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="egengeometri" class="flate">Flate</button>
+                    <button ng-if="geometritype.navn == 'Geometri, punkt'" ng-click="startMarker()" ng-disabled="egengeometri" class="draw" title="Tegn punktgeometri på kart">
+                        <ng-include src="'gfx/map80.svg'"></ng-include>
+                    </button>
+                    <button ng-if="geometritype.navn == 'Geometri, linje'" ng-click="startPolyline()" ng-disabled="egengeometri" class="draw" title="Tegn linjegeometri på kart">
+                        <ng-include src="'gfx/polyline.svg'"></ng-include>
+                    </button>
+                    <button ng-if="geometritype.navn == 'Geometri, flate'" ng-click="startPolygon()" ng-disabled="egengeometri" class="draw" title="Tegn flategeometri på kart">
+                        <ng-include src="'gfx/irregular10.svg'"></ng-include>
+                    </button>
                 </span>
         </div>
     </div>
@@ -71,9 +77,12 @@
         <h4>Vegnettstilknytning</h4>
         <div class="lokasjon">
             <input type="text" ng-model="lokasjon" placeholder="Stedfest objekt" disabled="disabled">
+            <button ng-if="lokasjon" ng-click="resetLokasjon()" class="fjern" title="Fjern vegnettstilknytning">x</button>
             <span ng-if="objekttype[aktivObjekttype].geometriType == 'LINJE'">
-                <button ng-if="lokasjon" ng-click="resetLokasjon()" class="fjern" title="Fjern vegnettstilknytning">x</button>
-                <button ng-click="hentVegnett()" ng-disabled="lokasjon" class="strekning" title="Stedfest objekt">i</button>
+                
+                <button ng-click="hentVegnett()" ng-disabled="lokasjon" class="draw" title="Stedfest objekt">
+                    <ng-include src="'gfx/maps6.svg'"></ng-include>
+                </button>
             </span>
         </div>
     </div>
