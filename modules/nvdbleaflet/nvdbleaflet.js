@@ -140,18 +140,20 @@
                         color: "#000",
                         lineCap: "butt",
                         opacity: 1,
-                        weight: 5
+                        weight: 3
                     };
                 },
                 onEachFeature: function (feature, layer) {
                     layer.on('mouseover', function (e) {
                         e.target.setStyle({
-                            opacity: 0.5
+                            opacity: 0.5,
+                            weight: 8
                         });
                     });
                     layer.on('mouseout', function (e) {
                         e.target.setStyle({
-                            opacity: 1
+                            opacity: 1,
+                            weight: 3
                         });
                     });
                     layer.on('click', function (e) {
