@@ -120,6 +120,12 @@ select.velg_objekttype {
   font-size: 1.4em;
 }
 
+select.mal {
+  float: right;
+  width: 150px;
+  font-size: 0.7em;
+}
+
 input[type=text] {
   width: calc(100% - 14px);
   padding: 6px;

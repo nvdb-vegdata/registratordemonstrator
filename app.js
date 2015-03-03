@@ -1,8 +1,7 @@
 ﻿var app = angular.module('registratordemonstrator', [
     'nvdbapi',
     'nvdbdata',
-    'nvdbleaflet',
-    'regskjema'
+    'nvdbleaflet'
 ]);
 
 app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdbdata) {
@@ -27,6 +26,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.resetLayer('lokasjon');
         $rootScope.resetLayer('vegobjekter');
         $rootScope.egenskaper = {};
+        $rootScope.resetEgenskaper();
     
         // TODO: Legg til sjekk om informasjon allerede er hentet
         nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
@@ -141,8 +141,13 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     // Lagrer verdier fra registreringsskjema
     $rootScope.egenskaper = {};
     
-    // Beskrivelse av viktighetsparametere
+    $rootScope.resetEgenskaper = function () {
+        for (nr in $rootScope.egenskaper) {
+            $rootScope.egenskaper[nr] = '';
+        }
+    };
     
+    // Beskrivelse av viktighetsparametere
     $rootScope.viktighet = {
         1: "Egenskapen må ha verdi for at objektet skal bli registrert",
         2: "Egenskapen må ha verdi for at objektet skal bli registrert",
@@ -154,5 +159,57 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     };
     
     
+    $rootScope.mal = {};
+    $rootScope.mal[470] = {
+        "Maltittel": {
+            navn: "Maltittel",
+            egenskaper: [
+                {
+                    id: 3779,
+                    verdi: "Mobiltelefon"
+                },
+                {
+                    id: 4072,
+                    verdi: 1986
+                },
+                {
+                    id: 3874,
+                    verdi: 3
+                },
+            ]
+        },
+        "Maltittel2": {
+            navn: "Maltittel2",
+            egenskaper: [
+                {
+                    id: 3779,
+                    verdi: "Radio"
+                },
+                {
+                    id: 4072,
+                    verdi: 2010
+                },
+                {
+                    id: 3874,
+                    verdi: 78
+                },
+                {
+                    id: 3518,
+                    verdi: "Telenor"
+                },
+            ]
+        }
+    };
     
+    $rootScope.aktivMal = '';
+    $rootScope.setMal = function () {
+        $rootScope.resetEgenskaper();
+        
+        var egenskaper = $rootScope.mal[$rootScope.aktivObjekttype][$rootScope.aktivMal].egenskaper
+        for (var i = 0; i < egenskaper.length; i++) {
+            var egenskap = egenskaper[i];
+            $rootScope.egenskaper[egenskap.id] = egenskap.verdi;
+        }
+    };
+        
 }]);
