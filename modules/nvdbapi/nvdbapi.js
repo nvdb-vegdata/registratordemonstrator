@@ -18,8 +18,10 @@
             },
             vegreferanse: function(lon, lat) {
                 return $http.get(api+'/vegreferanse/koordinat.json?lon='+lon+'&lat='+lat);
-            }
-            
+            },
+            vegreferanseobjekter: function(sokeobjekt) {
+                return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&geometri=WGS84&egenskaper=false');
+            },
         };
         
     }])

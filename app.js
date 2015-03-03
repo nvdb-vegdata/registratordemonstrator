@@ -64,8 +64,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     };
     
     $rootScope.hentVegnett = function () {
-        console.log('hest');
-        
+
         var sokeobjekt = {
             lokasjon: {
                 srid: 'WGS84',
@@ -77,11 +76,70 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             }]
         }
         
-        nvdbapi.sok(sokeobjekt).then(function(promise) { 
+        nvdbapi.vegreferanseobjekter(sokeobjekt).then(function(promise) { 
+        
             var objekter = promise.data.resultater[0].vegObjekter;
-            var geojson = nvdbdata.geojson(objekter);
             
-            $rootScope.addVegnett(geojson);
+            
+            var vegrefdeler = {};
+            for (var i = 0; i < objekter.length; i++) {
+                if (objekter[i].lokasjon.hasOwnProperty('veglenker') && objekter[i].lokasjon.hasOwnProperty('vegReferanser')) {
+
+                    var veglenke = objekter[i].lokasjon.veglenker[0];
+                    var vegreferanse = objekter[i].lokasjon.vegReferanser[0];
+                    var geometri = Terraformer.WKT.parse(objekter[i].lokasjon.geometriWgs84);
+                    
+                    var key = veglenke.id+'-'+vegreferanse.kategori+'-'+vegreferanse.status+'-'+vegreferanse.nummer+'-'+vegreferanse.hp;
+
+                    var objekt = {
+                        veglenke: veglenke,
+                        vegreferanse: vegreferanse,
+                        geometri: geometri
+                    }
+                    
+                    if (!vegrefdeler.hasOwnProperty(key)) {
+                        vegrefdeler[key] = [];
+                    }
+                    vegrefdeler[key].push(objekt);
+                }
+            }
+            //console.log(vegrefdeler);
+            
+            for (key in vegrefdeler) {
+                //console.log(key);
+                if (vegrefdeler[key].length < 2) {
+                    //console.log('Bare ett objekt');
+                    //console.log(vegrefdeler[key][0].geometri);
+                    $rootScope.addVegnett(vegrefdeler[key][0].geometri);
+                } else {
+                    for (var i = 1; i < vegrefdeler[key].length; i++) {
+                        if (vegrefdeler[key][i-1].vegreferanse.tilMeter == vegrefdeler[key][i].vegreferanse.fraMeter) {
+                            //console.log('Kan slås sammen');
+                            var koordinater0 = vegrefdeler[key][i-1].geometri.coordinates;
+                            //console.log(koordinater0);
+                            var koordinater0ny = koordinater0.splice(0, koordinater0.length-1);
+                            //console.log(koordinater0ny);
+                            var koordinater1 = vegrefdeler[key][i].geometri.coordinates;
+                            //console.log(koordinater1);
+                            var koordinater1ny = koordinater0ny.concat(koordinater1);
+                            //console.log(koordinater1ny)
+                            vegrefdeler[key][i].geometri.coordinates = koordinater1ny;
+                        } else {
+                            $rootScope.addVegnett(vegrefdeler[key][i-1].geometri);
+                        }
+                        if (i == vegrefdeler[key].length-1) {
+                            $rootScope.addVegnett(vegrefdeler[key][i].geometri);
+                        }
+                        //console.log(vegrefdeler[key][i].vegreferanse.fraMeter+'-'+vegrefdeler[key][i].vegreferanse.tilMeter);
+                    }
+                }
+
+            }
+            
+            
+            //var geojson = nvdbdata.geojson(objekter);
+            
+            //$rootScope.addVegnett(geojson);
 
         });
     };

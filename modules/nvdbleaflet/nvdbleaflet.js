@@ -1,7 +1,7 @@
 ﻿angular.module('nvdbleaflet', [])
 
     .controller("nvdbleafletCtrl", ['$rootScope', 'nvdbapi', function ($rootScope, nvdbapi) {
-
+    
         var crs = new L.Proj.CRS('EPSG:25833',
             '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs ',
             {
@@ -27,9 +27,11 @@
                 ]
             }
         );
+        
+        var kartcache = 'http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}';
             
         var layers = {};
-        layers.bakgrunnskart = new L.tileLayer('http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}', {
+        layers.bakgrunnskart = new L.tileLayer(kartcache, {
             maxZoom: 16,
             minZoom: 3,	
             subdomains: '123456789',
