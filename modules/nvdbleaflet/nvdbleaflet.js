@@ -148,18 +148,21 @@
                 onEachFeature: function (feature, layer) {
                     layer.on('mouseover', function (e) {
                         e.target.setStyle({
-                            color: "#0f0"
+                            opacity: 0.5
                         });
                     });
                     layer.on('mouseout', function (e) {
                         e.target.setStyle({
-                            color: "#000"
+                            opacity: 1
                         });
                     });
                     layer.on('click', function (e) {
                         if ($rootScope.stedfester) {
                             console.log('Stedfester allerede');
                         } else {
+                            e.target.setStyle({
+                                color: "#00f"
+                            });
                             console.log('Starter stedfesting');
                             $rootScope.stedfester = true;
                             control.enable({
