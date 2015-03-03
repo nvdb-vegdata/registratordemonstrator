@@ -112,8 +112,8 @@
                     return {
                         color: "#000",
                         lineCap: "butt",
-                        opacity: 0.5,
-                        weight: 10
+                        opacity: 1,
+                        weight: 5
                     };
                 },
                 onEachFeature: function (feature, layer) {
