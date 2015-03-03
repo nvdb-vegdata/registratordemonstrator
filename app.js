@@ -14,15 +14,16 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         $rootScope.objekttyper = promise.data.vegObjektTyper;
     });
     
-    // Henter egenskapstyper for aktiv objekttype
-    $rootScope.hentObjekttype = function () {
     
-        // Nullstiller modellen
+    // Funksjon som kjøres når det settes en ny aktiv objekttype i applikasjonen
+    $rootScope.setObjekttype = function () {
+    
+        // Modellen nullstilles
         $rootScope.resetObjekt();
         $rootScope.resetLayer('vegobjekter');
         $rootScope.egenskaper = {};
         
- 
+        // Henter detaljert informasjon om aktiv objekttype
         if (!$rootScope.objekttype.hasOwnProperty($rootScope.aktivObjekttype)) {
             nvdbapi.objekttype($rootScope.aktivObjekttype).then(function(promise) {
                 var data = nvdbdata.objekttype(promise.data);
@@ -32,36 +33,33 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     };
  
     
+    // Henter objekter fra NVDB og legger dem til kart
     $rootScope.hentObjekter = function () {
     
-        console.log('Henter data ...'); // Aktiver loading-ikon
-
-        var sokeobjekt = {
-            lokasjon: {
-                srid: 'WGS84',
-                bbox: $rootScope.getBbox()
-            },
-            objektTyper: [{
-                id: $rootScope.aktivObjekttype,
-                antall: 100000
-            }]
-        }
+        $rootScope.loading = true;  // Aktiverer loading-ikon
+        // http://stackoverflow.com/questions/23316532/angularjs-how-to-show-a-loading-indicator-when-loading-the-app-at-the-first-time
         
-        nvdbapi.sok(sokeobjekt).then(function(promise) { 
-            console.log('Data hentet. Tegner opp ...'); // Deaktiver loading-ikon
+        nvdbapi.sok($rootScope.aktivObjekttype, $rootScope.getBbox()).then(function(promise) { 
+            $rootScope.loading = false;  // Deaktiverer loading-ikon
 
+            // Henter objekter fra APIet, og transformerer til geojson
             var objekter = promise.data.resultater[0].vegObjekter;
             var geojson = nvdbdata.geojson(objekter);
             
+            // Legger til objektene til kart
             $rootScope.addVegobjekter(geojson);
 
         });
         
     };
     
+    
+    // Henter vegnett og legger dem til som et kartlag for stedfesting av strekningsobjekter
     $rootScope.hentVegnett = function () {
 
+        $rootScope.loading = true;  // Aktiverer loading-ikon
         nvdbapi.vegreferanseobjekter($rootScope.getBbox()).then(function(promise) { 
+            $rootScope.loading = false;  // Deaktiverer loading-ikon
         
             var objekter = promise.data.resultater[0].vegObjekter;
             
@@ -118,39 +116,18 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
                         //console.log(vegrefdeler[key][i].vegreferanse.fraMeter+'-'+vegrefdeler[key][i].vegreferanse.tilMeter);
                     }
                 }
-
             }
-            
-            
             //var geojson = nvdbdata.geojson(objekter);
-            
             //$rootScope.addVegnett(geojson);
-
         });
-    };
-    
-    
-    $rootScope.registrerObjekt = function () {
-        var output = '';
-        output += 'Egengeometri: \n'+$rootScope.egengeometri+'\n\n';
-        output += 'Lokasjon: \n'+$rootScope.lokasjon+'\n\n';
-        
-        var egenskapstyper = $rootScope.objekttype[$rootScope.aktivObjekttype].egenskapsTyper;
-        for (var i = 0; i < egenskapstyper.length; i++) {
-            if ($rootScope.egenskaper[egenskapstyper[i].id]) {
-                output += egenskapstyper[i].navn+': \n'+$rootScope.egenskaper[egenskapstyper[i].id]+'\n\n';
-            }
-            
-        }
-        alert(output);
-    };
-    
+    };  
     
     
     // Variabler som lagrer verdier fra registreringsskjema
     $rootScope.egenskaper = {};
     $rootScope.egengeometri = '';
     $rootScope.lokasjon = '';
+
 
     // Funksjoner for å nullestille modellen
     $rootScope.resetEgenskaper = function () {
@@ -173,11 +150,7 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
     };
     
     
-    
-    // Denne kan kanskje fjernes?
-    $rootScope.stedfester = false;
-
-    
+    // Finner lokasjon for punkt
     $rootScope.finnVegreferanse = function (lon, lat) {
         $rootScope.lokasjon = 'Henter vegreferanse ...';
         nvdbapi.vegreferanse(lon, lat).then(function(promise) {
@@ -259,6 +232,23 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
             var egenskap = egenskaper[i];
             $rootScope.egenskaper[egenskap.id] = egenskap.verdi;
         }
+    };
+    
+
+    // Dette skjer når et objekt skal registreres
+    $rootScope.registrerObjekt = function () {
+        var output = '';
+        output += 'Egengeometri: \n'+$rootScope.egengeometri+'\n\n';
+        output += 'Lokasjon: \n'+$rootScope.lokasjon+'\n\n';
+
+        var egenskapstyper = $rootScope.objekttype[$rootScope.aktivObjekttype].egenskapsTyper;
+        for (var i = 0; i < egenskapstyper.length; i++) {
+            if ($rootScope.egenskaper[egenskapstyper[i].id]) {
+                output += egenskapstyper[i].navn+': \n'+$rootScope.egenskaper[egenskapstyper[i].id]+'\n\n';
+            }
+
+        }
+        alert(output);
     };
         
 }]);

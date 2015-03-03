@@ -16,12 +16,24 @@
             egenskapstype: function(id) {
                 return $http.get(api+'/datakatalog/egenskapstype/'+id+'.json');
             },
-            sok: function(sokeobjekt) {
-                return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&select=objektId%2CobjektTypeId%2CvegObjektLokasjon%2FgeometriWgs84');
-            },
             vegreferanse: function(lon, lat) {
                 return $http.get(api+'/vegreferanse/koordinat.json?lon='+lon+'&lat='+lat);
             },
+            sok: function(objekttype, bbox) {
+                var sokeobjekt = {
+                    lokasjon: {
+                        srid: 'WGS84',
+                        bbox: bbox
+                    },
+                    objektTyper: [{
+                        id: objekttype,
+                        antall: 100000
+                    }]
+                };
+            
+                return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&select=objektId%2CobjektTypeId%2CvegObjektLokasjon%2FgeometriWgs84');
+            },
+
             vegreferanseobjekter: function(bbox) {
                 var sokeobjekt = {
                     lokasjon: {
@@ -32,7 +44,7 @@
                         id: 532,
                         antall: 100000
                     }]
-                }
+                };
             
                 return $http.get(api+'/sok.json?kriterie='+angular.toJson(sokeobjekt)+'&geometri=WGS84&egenskaper=false');
             },

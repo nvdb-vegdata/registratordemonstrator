@@ -148,11 +148,6 @@ button {
   cursor: pointer;
 }
 
-button:focus {
-  background: #f00;
-}
-
-
 button:disabled {
   background: #ccc; 
   border-color: #ccc;
@@ -238,4 +233,11 @@ button.strekning:disabled {
 input.harVerdi, select.harVerdi {
   border-color: #FFFF99;
   background: #FFFFE5;
+}
+
+
+.loading {
+  position: absolute;
+  top: 27px;
+  left: 360px;
 }

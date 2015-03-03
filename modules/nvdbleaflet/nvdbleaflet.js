@@ -2,7 +2,7 @@
 
     .controller("nvdbleafletCtrl", ['$rootScope', 'nvdbapi', 'nvdbdata', function ($rootScope, nvdbapi, nvdbdata) {
     
-        var crs = new L.Proj.CRS('EPSG:25833',
+        var _crs = new L.Proj.CRS('EPSG:25833',
             '+proj=utm +zone=33 +ellps=GRS80 +units=m +no_defs ',
             {
                 origin: [-2500000.0, 9045984.0],
@@ -28,23 +28,23 @@
             }
         );
         
-        var kartcache = 'http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}';
+        var _kartcache = 'http://m{s}.nvdbcache.geodataonline.no/arcgis/rest/services/Trafikkportalen/GeocacheTrafikkJPG/MapServer/tile/{z}/{y}/{x}';
             
         var layers = {};
-        layers.bakgrunnskart = new L.tileLayer(kartcache, {
+        layers.bakgrunnskart = new L.tileLayer(_kartcache, {
             maxZoom: 16,
             minZoom: 3,	
             subdomains: '123456789',
             continuousWorld: true,
             attribution: 'Registratordemonstrator'
         });
-        layers.vegobjekter = L.markerClusterGroup(); // For objekter hentet fra NVDB
-        layers.vegnett = L.layerGroup(); // For stedfesting på vegnett
-        layers.egengeometri = L.layerGroup(); // For egengeometri
-        layers.lokasjon = L.layerGroup(); // For symbol som viser vegnettstilknytning
+        layers.vegobjekter = L.markerClusterGroup();  // For objekter hentet fra NVDB
+        layers.vegnett = L.layerGroup();              // For stedfesting på vegnett
+        layers.egengeometri = L.layerGroup();         // For egengeometri
+        layers.lokasjon = L.layerGroup();             // For symbol som viser vegnettstilknytning
 
         var map = new L.map('map', {
-            crs: crs, 
+            crs: _crs, 
             continuousWorld: true,
             worldCopyJump: false,
             layers: [
@@ -155,14 +155,13 @@
                         });
                     });
                     layer.on('click', function (e) {
-                        if ($rootScope.stedfester) {
-                            console.log('Stedfester allerede');
-                        } else {
+
+                        if (!control._startMarker) {
+
                             e.target.setStyle({
                                 color: "#00f"
                             });
 
-                            $rootScope.stedfester = true;
                             control.enable({
                                 feature: e.target.feature,
                                 layer: e.target
@@ -198,7 +197,6 @@
             layers.lokasjon.addLayer(lokasjon);          
                    
             control.disable();
-            $rootScope.stedfester = false;
             layers.vegnett.clearLayers();
             
             $rootScope.lokasjon = 'Henter vegreferanse ...';

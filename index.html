@@ -34,7 +34,7 @@
 
     <h1>Registratordemonstrator</h1>
 
-    <select ng-model="aktivObjekttype" ng-change="hentObjekttype()" class="velg_objekttype">
+    <select ng-model="aktivObjekttype" ng-change="setObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
     </select><button ng-click="hentObjekter()">Hent objekter</button>
@@ -94,39 +94,28 @@
         </h4>
         
         <ng-switch on="egenskapstype.type">
-            <!-- ENUM -->
+
             <select ng-switch-when="ENUM" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
                 <option value="">Velg verdi</option>
                 <option ng-repeat="enum in egenskapstype.enumVerdier">{{enum.verdi}}</option>
             </select>
-            
-            <!-- Tekst -->
-            <input type="text" placeholder="Skriv inn tekst" ng-switch-when="Tekst" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
-            
-            <!-- Tall -->
-            <input type="text" placeholder="Skriv inn tall" ng-switch-when="Tall" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
-            <!-- Dato -->
-            <input type="text" placeholder="YYYY-MM-DD" ng-switch-when="Dato" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
-            
-            <!-- Klokkeslett -->
-            <input type="text" placeholder="hh:ss" ng-switch-when="Klokkeslett" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
-            
-            <!-- Default -->
-            <input type="text" placeholder="{{egenskapstype.type}}" ng-switch-default ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+            <input ng-switch-when="Tekst" type="text" placeholder="Skriv inn tekst" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+
+            <input ng-switch-when="Tall" type="text" placeholder="Skriv inn tall" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+
+            <input ng-switch-when="Dato" type="text" placeholder="YYYY-MM-DD" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+
+            <input ng-switch-when="Klokkeslett" type="text" placeholder="hh:ss" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+
+            <input ng-switch-default type="text" placeholder="{{egenskapstype.type}}" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+
         </ng-switch>
         
         <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
-        
-        <!--
-        <p class="beskrivelse">
-            {{egenskapstype.viktighet}}. {{egenskapstype.beskrivelse}}. 
-            <span ng-if="egenskapstype.enhet" title="{{egenskapstype.enhet.navn}}">{{egenskapstype.enhet.kortNavn}}</span>
-        </p>
-        -->
+
     </div>
 
-    <!--<h3><span class="nr">3</span>Datterobjekter</h3>-->
 
 
     <h3><span class="nr">3</span><button ng-click="registrerObjekt()" style="font-size: 1em; width: auto; padding: 6px;">Registrer objekt</button></h3>
@@ -135,6 +124,7 @@
     </div>
 
 
+    <div class="loading" ng-show="loading"><img src="gfx/process-working.gif" alt=""></div>
 
 
 </section>
@@ -144,6 +134,7 @@
 
 
 <section id="map" ng-controller="nvdbleafletCtrl"></section>
+
 
 
 <script src="modules/nvdbleaflet/nvdbleaflet.js" type="text/javascript"></script>
