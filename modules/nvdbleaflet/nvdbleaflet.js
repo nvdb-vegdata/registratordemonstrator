@@ -92,9 +92,9 @@
                         $rootScope.resetEgenskaper();
                         
                         var nvdbid = e.target.feature.properties.id;
-                        console.log(nvdbid);
+
                         nvdbapi.objekt(nvdbid).then(function(promise) {
-                            console.log(promise.data);
+
                             var egenskaper = promise.data.egenskaper;
                             
                             for (var i = 0; i < egenskaper.length; i++) {
@@ -163,7 +163,7 @@
                             e.target.setStyle({
                                 color: "#00f"
                             });
-                            console.log('Starter stedfesting');
+
                             $rootScope.stedfester = true;
                             control.enable({
                                 feature: e.target.feature,
