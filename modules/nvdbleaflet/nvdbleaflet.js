@@ -180,19 +180,18 @@
         var control = new L.Control.LineStringSelect({});
         map.addControl(control);
         
+        // Ved stedfesting av to punkt på en veglenke
         control.on('selection', function() {
-            
-            console.log(control);
-            console.log(control._startMarker._latlng.lat+' '+control._startMarker._latlng.lng);
 
-            
             var lat1 = control._startMarker._latlng.lat;
             var lon1 = control._startMarker._latlng.lng;
             var lat2 = control._endMarker._latlng.lat;
             var lon2 = control._endMarker._latlng.lng;
+
+            var linje = control.e._latlngs;
             
             // Legger til lokasjonslinje
-            var lokasjon = L.polyline([control._startMarker._latlng, control._endMarker._latlng], {
+            var lokasjon = L.polyline(linje, {
                 color: "blue",
                 opacity: 1,
                 weight: 3,
