@@ -279,6 +279,10 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
             console.log(promise);
         });
         
+        nvdbskriv.registrerJobb(jobb).then(function(promise) {
+            console.log(promise);
+        });
+        
     };
         
 }]);
