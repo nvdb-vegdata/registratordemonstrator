@@ -1,10 +1,11 @@
 ﻿var app = angular.module('registratordemonstrator', [
     'nvdbapi',
+    'nvdbskriv',
     'nvdbdata',
     'nvdbleaflet'
 ]);
 
-app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdbdata) {
+app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, nvdbapi, nvdbdata, nvdbskriv) {
 
     $rootScope.aktivObjekttype = 0;
     $rootScope.objekttype = {};
@@ -237,6 +238,22 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
 
     // Dette skjer når et objekt skal registreres
     $rootScope.registrerObjekt = function () {
+    
+        var jobb = {
+            effektDato: "2015-03-06",
+            datakatalogversjon: "2.01",
+            registrer: {
+                vegObjekter: []
+            }
+        };
+        
+        var vegobjekt = {};
+        
+        vegobjekt.typeId = $rootScope.aktivObjekttype;
+        vegobjekt.tempId = "-1";
+        vegobjekt.egenskaper = [];
+        
+    
         var output = '';
         output += 'Egengeometri: \n'+$rootScope.egengeometri+'\n\n';
         output += 'Lokasjon: \n'+$rootScope.lokasjon+'\n\n';
@@ -245,10 +262,23 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', function($rootScope, nvdbapi, nvdb
         for (var i = 0; i < egenskapstyper.length; i++) {
             if ($rootScope.egenskaper[egenskapstyper[i].id]) {
                 output += egenskapstyper[i].navn+': \n'+$rootScope.egenskaper[egenskapstyper[i].id]+'\n\n';
+                vegobjekt.egenskaper.push({
+                    typeId:  egenskapstyper[i].id,
+                    verdi: [$rootScope.egenskaper[egenskapstyper[i].id]]
+                });
             }
 
         }
-        alert(output);
+        
+        jobb.registrer.vegObjekter.push(vegobjekt);
+        
+        console.log(output);
+        console.log(angular.toJson(jobb));
+        
+        nvdbskriv.getJobber().then(function(promise) {
+            console.log(promise);
+        });
+        
     };
         
 }]);
