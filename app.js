@@ -275,10 +275,6 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
         console.log(output);
         console.log(angular.toJson(jobb));
         
-        nvdbskriv.getJobber().then(function(promise) {
-            console.log(promise);
-        });
-        
         nvdbskriv.registrerJobb(jobb).then(function(promise) {
             console.log(promise);
         });

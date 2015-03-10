@@ -39,7 +39,9 @@
     <select ng-model="aktivObjekttype" ng-change="setObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
-    </select><button ng-click="hentObjekter()">Hent objekter</button>
+    </select>
+    
+    <button ng-click="hentObjekter()">Hent objekter</button>
 
     <div ng-if="aktivObjekttype == 0">
         <p class="ingress">Velg objekttype ovenfor for å starte registreringen.</p>
@@ -97,7 +99,7 @@
         </select>
     </h3>
 
-    <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:['viktighetnr', 'sorteringsnummer']" class="egenskapstype">
+    <div ng-repeat="egenskapstype in objekttype[aktivObjekttype].egenskapsTyper | orderBy:['viktighetnr', 'sorteringsnummer']" class="egenskapstype v{{egenskapstype.viktighetnr}}">
         <h4>
             {{egenskapstype.navn}} 
             <span class="viktighet" title="{{viktighet[egenskapstype.viktighetnr]}}">{{egenskapstype.viktighet}}</span>
@@ -128,7 +130,7 @@
 
 
 
-    <h3><span class="nr">3</span><button ng-click="registrerObjekt()" style="font-size: 1em; width: auto; padding: 6px;">Registrer objekt</button></h3>
+    <h3><span class="nr">3</span><button ng-click="registrerObjekt()" style="font-size: 1em; width: auto; padding: 6px;" disabled>Registrer objekt</button></h3>
 
 
     </div>
