@@ -3,6 +3,8 @@
 <head>
     <title>Registratordemonstrator</title>
     
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
     
@@ -40,8 +42,8 @@
         <option value="0">Velg objekttype</option>
         <option ng-repeat="objekttype in objekttyper | orderBy:'navn'" ng-value="{{objekttype.id}}">{{objekttype.navn}}</option>
     </select>
-    
-    <button ng-click="hentObjekter()">Hent objekter</button>
+    <br><br>
+    <button ng-click="hentObjekter()" ng-if="aktivObjekttype != 0">Hent objekter</button>
 
     <div ng-if="aktivObjekttype == 0">
         <p class="ingress">Velg objekttype ovenfor for å starte registreringen.</p>
@@ -123,6 +125,7 @@
             <input ng-switch-default type="text" placeholder="{{egenskapstype.type}}" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
         </ng-switch>
+        
         
         <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
 
