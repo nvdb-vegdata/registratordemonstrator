@@ -45,6 +45,9 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
 
             // Henter objekter fra APIet, og transformerer til geojson
             var objekter = promise.data.resultater[0].vegObjekter;
+            //$rootScope.addVegobjekter(objekter);
+            
+            
             var geojson = nvdbdata.geojson(objekter);
             
             // Legger til objektene til kart

@@ -143,7 +143,7 @@ select.mal {
   font-size: 0.8em;
 }
 
-input[type=text] {
+input[type=text], input[type=date] {
   width: calc(100% - 16px);
   padding: 8px;
   border: none;

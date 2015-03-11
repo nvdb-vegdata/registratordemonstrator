@@ -72,7 +72,73 @@
             return map.getBounds().toBBoxString();
         };
         
+ /*       
         // Legger til vegobjekter
+        $rootScope.addVegobjekterNy = function (objekter) 
+        
+            $rootScope.resetLayer('vegobjekter');
+            $rootScope.kartobjekter = [];
+        
+            for (var i = 0; i < objekter.length; i++) {
+                var geometri = Terraformer.WKT.parse(objekter[i].lokasjon.geometriWgs84);
+                var feature = L.geoJson({
+                    type: 'Feature',
+                    properties: {
+                        id: objekter[i].objektId
+                    },
+                    geometry: geometri
+                });
+                
+                $rootScope.kartobjekter[objekter[i].objektId] = feature;
+
+                layers.vegobjekter.addLayer($rootScope.kartobjekter[objekter[i].objektId]);
+                
+            }
+            
+        
+            $rootScope.resetLayer('vegobjekter');
+            var layer = L.geoJson(geojson, {
+                style: function (feature) {
+                    return {
+                        color: "#d53e4f",
+                        fillColor: "#d53e4f",
+                        opacity: 1,
+                        weight: 3
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.on('click', function (e) {
+                        
+                        // e.target.enableEdit();
+
+                        $rootScope.resetObjekt();
+                        
+                        var nvdbid = e.target.feature.properties.id;
+
+                        nvdbapi.objekt(nvdbid).then(function(promise) {
+
+                            var egenskaper = promise.data.egenskaper;
+                            
+                            for (var i = 0; i < egenskaper.length; i++) {
+                                $rootScope.egenskaper[egenskaper[i].id] = egenskaper[i].verdi;
+                            }
+                            
+                            $rootScope.lokasjon = nvdbdata.vegreferanse(promise.data.lokasjon.vegReferanser[0]);
+                            
+                            if (promise.data.lokasjon.egengeometri) {
+                                $rootScope.egengeometri = promise.data.lokasjon.geometriWgs84;
+                            }
+                            
+                        });
+                        
+                    });
+                }
+            });
+            layers.vegobjekter.addLayer(layer);
+        };
+        */
+        
+        // Legger til vegobjekter - Gammel
         $rootScope.addVegobjekter = function (geojson) {
             $rootScope.resetLayer('vegobjekter');
             var layer = L.geoJson(geojson, {
