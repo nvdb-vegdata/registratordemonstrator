@@ -38,7 +38,9 @@
             continuousWorld: true,
             attribution: 'Registratordemonstrator'
         });
-        layers.vegobjekter = L.markerClusterGroup();  // For objekter hentet fra NVDB
+        layers.vegobjekter = L.markerClusterGroup({
+            maxClusterRadius: 50
+        });                                           // For objekter hentet fra NVDB
         layers.vegnett = L.layerGroup();              // For stedfesting på vegnett
         layers.egengeometri = L.layerGroup();         // For egengeometri
         layers.lokasjon = L.layerGroup();             // For symbol som viser vegnettstilknytning
