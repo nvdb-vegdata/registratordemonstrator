@@ -3,7 +3,7 @@
 <head>
     <title>Registratordemonstrator</title>
     
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -48,9 +48,9 @@
     <div ng-if="aktivObjekttype == 0">
         <p class="ingress">Velg objekttype ovenfor for å starte registreringen.</p>
         
-        <h2>En overskrift</h2>
+        <h2>Hva er dette?</h2>
         
-        <p>Enda et avsnitt.</p>
+        <p>En prototype for å teste NVDB API for les og skriv.</p>
     </div>
     
 
@@ -116,7 +116,7 @@
 
             <input ng-switch-when="Tekst" type="text" placeholder="Skriv inn tekst" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
-            <input ng-switch-when="Tall" type="text" placeholder="Skriv inn tall" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
+            <input ng-switch-when="Tall" type="text" pattern="[0-9]*" placeholder="Skriv inn tall" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
             <input ng-switch-when="Dato" type="text" placeholder="YYYY-MM-DD" ng-model="egenskaper[egenskapstype.id]" ng-class="{'harVerdi': egenskaper[egenskapstype.id]}">
 
