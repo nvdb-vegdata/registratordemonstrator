@@ -90,6 +90,13 @@ p {
   font-size: 1.4em;
 }
 
+pre {
+  margin: 1em 0;
+  font-size: 1.4em;
+  width: 100%;
+  overflow: auto;
+}
+
 .ingress {
   font-size: 1.6em;
 }
@@ -116,6 +123,7 @@ p {
 }
 
 #map {
+  position: relative;
   float: left;
   width: calc(100% - 400px);
   height: 100%;
@@ -247,13 +255,56 @@ input.harVerdi, select.harVerdi {
 
 .loading {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 50%;
+  left: 50%;
   z-index: 1000;
-  width: 32px;
-  height: 32px;
-  border-radius: 5px;
+  margin: -24px 0 0 -24px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 24px;
 }
+
+
+
+
+
+
+
+.objekttypefilter {
+
+}
+
+
+.objektliste {
+  position: absolute;
+  z-index: 10000;
+  top: 100px;
+  left: 20px;
+  max-height: 0;
+  transition: max-height 0.2s;
+  width: 360px;
+  overflow: hidden;
+  list-style: none;
+  background: #fff;
+}
+
+.aktivObjektliste {
+  max-height: calc(100% - 120px);
+  overflow: auto;
+}
+
+.objektliste li {
+
+}
+
+.objektliste button:focus {
+  background: #f00;
+}
+
+
+
+
 
 @media (max-width: 800px) {
     #regskjema {
@@ -282,3 +333,4 @@ input.harVerdi, select.harVerdi {
       max-height: calc(100% - 300px);
     }
 }
+

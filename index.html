@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="registratordemonstrator">
+<html ng-app="registratordemonstrator" lang="no">
 <head>
     <title>Registratordemonstrator</title>
     
@@ -16,10 +16,10 @@
     <script src="modules/nvdbdata/nvdbdata.js" type="text/javascript"></script>
     <script src="modules/base64/angular-base64.min.js" type="text/javascript"></script>
     
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" href="css/MarkerCluster.css">
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css">
     
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <link rel="stylesheet" href="css/MarkerCluster.css" />
-    <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
     <script src="lib/proj4js-compressed.js" type="text/javascript"></script>
     <script src="lib/proj4leaflet.js" type="text/javascript"></script>
@@ -37,6 +37,14 @@
 <section id="regskjema">
 
     <h1>Registratordemonstrator</h1>
+    <!--
+    <input type="text" placeholder="Søk etter objekttype" ng-model="filter" class="objekttypefilter" ng-click="aktivObjektliste = true;">
+    
+    <ul class="objektliste" ng-class="{'aktivObjektliste': aktivObjektliste}">
+        <li ng-repeat="objekttype in objekttyper | orderBy:'navn' | filter:filter">
+            <button ng-click="velgObjekttype(objekttype.id, objekttype.navn)">{{objekttype.navn}}</button>
+        </li>
+    </ul>-->
     
     <select ng-model="aktivObjekttype" ng-change="setObjekttype()" class="velg_objekttype">
         <option value="0">Velg objekttype</option>
@@ -126,7 +134,6 @@
 
         </ng-switch>
         
-        
         <p ng-if="egenskapstype.beskrivelse" class="beskrivelse">{{egenskapstype.beskrivelse}}</p>
         <p ng-if="egenskapstype.enhet" class="beskrivelse">Enhet: {{egenskapstype.enhet.navn}}</p>
 
@@ -134,13 +141,16 @@
 
 
 
-    <h3><span class="nr">3</span><button ng-click="registrerObjekt()" style="font-size: 1em; width: auto; padding: 6px;" disabled>Registrer objekt</button></h3>
-
-
+    <button ng-click="registrerObjekt()" disabled>Registrer objekt</button>
+    
+    <h3><span class="nr">3</span>Status {{jobbFremdrift}}</h3>
+    
+    <pre><code>{{jobbStatus}}</code></pre>
+    
     </div>
 
 
-    <div class="loading" ng-show="loading"><img src="gfx/process-working.gif" alt=""></div>
+    
 
 
 </section>
@@ -149,8 +159,10 @@
 
 
 
-<section id="map" ng-controller="nvdbleafletCtrl"></section>
-
+<section id="map" ng-controller="nvdbleafletCtrl">
+    <div class="loading" ng-show="loading"><img src="gfx/loading-plz.gif" alt=""></div>
+    
+</section>
 
 
 <script src="modules/nvdbleaflet/nvdbleaflet.js" type="text/javascript"></script>

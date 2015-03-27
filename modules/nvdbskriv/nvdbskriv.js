@@ -51,7 +51,44 @@
                 }
                 
                 return $http(request);
+            },
+            
+            startJobb: function(jobbid) {
+            
+                var auth = $base64.encode('maghau:test');
+
+                var request = {
+                    method: 'POST',
+                    url: api+'/jobber/'+jobbid+'/start',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'x-nvdb-dryrun': true,
+                        Authorization: 'Basic '+auth
+                    }
+                }
+                
+                return $http(request);
+            },
+            
+            statusJobb: function(jobbid) {
+            
+                var auth = $base64.encode('maghau:test');
+
+                var request = {
+                    method: 'GET',
+                    url: api+'/jobber/'+jobbid+'/status',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'x-nvdb-dryrun': true,
+                        Authorization: 'Basic '+auth
+                    }
+                }
+                
+                return $http(request);
             }
+            
             
 
         };

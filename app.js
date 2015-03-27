@@ -9,6 +9,8 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
 
     $rootScope.aktivObjekttype = 0;
     $rootScope.objekttype = {};
+    
+    $rootScope.aktivObjektliste = false;
 
     // Henter liste med objekttyper
     nvdbapi.objekttyper().then(function(promise) {
@@ -32,6 +34,13 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
             });
         }
     };
+    
+    $rootScope.velgObjekttype = function (id, navn) {
+        $rootScope.aktivObjekttype = id;
+        $rootScope.filter = navn;
+        $rootScope.aktivObjektliste = false;
+        $rootScope.setObjekttype();
+    }
  
     
     // Henter objekter fra NVDB og legger dem til kart
@@ -280,6 +289,41 @@ app.run(['$rootScope', 'nvdbapi', 'nvdbdata', 'nvdbskriv', function($rootScope, 
         
         nvdbskriv.registrerJobb(jobb).then(function(promise) {
             console.log(promise);
+            
+            var jobbid = promise.data[0].src.split('/')[7];
+            console.log(jobbid);
+            
+            nvdbskriv.startJobb(jobbid).then(function(promise) {
+                console.log(promise);      
+                
+                var status;
+                
+                function sjekkStatus() {
+                    nvdbskriv.statusJobb(jobbid).then(function(promise) {
+                        console.log(promise.data);
+                        $rootScope.jobbFremdrift = promise.data.fremdrift;
+                        $rootScope.jobbStatus = JSON.stringify(promise.data, null, 2);
+
+                        if (promise.data.fremdrift != 'KJØRER') {
+                            console.log('fjerner intervall');
+                            clearInterval(status);
+                        }
+                    });
+                }
+                
+                sjekkStatus();
+                
+                // Endre til setTimeout, og kall sjekkStatus() fra sjekkStatus()
+                status = setInterval(sjekkStatus(), 1000);
+                
+
+
+            });
+            
+
+            
+            
+            
         });
         
     };
